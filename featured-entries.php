@@ -48,13 +48,13 @@ function gv_extension_featured_entries_load() {
 
 		}
 
-		function enqueue_style() {
+		public function enqueue_style() {
 
 			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'lib/css/featured-entries.css', array(), $this->_version );
 
 		}
 
-		function featured_setting_arg( $args ) {
+		public function featured_setting_arg( $args ) {
 
 			$settings = array(
 				'name'              => __('Display Featured at Top', 'gravity-view'),
@@ -71,13 +71,13 @@ function gv_extension_featured_entries_load() {
 
 		}
 
-		function featured_settings( $current_settings ) {
+		public function featured_settings( $current_settings ) {
 
 			GravityView_Admin_Views::render_setting_row( 'featured_entries_enabled', $current_settings );
 
 		}
 
-		function sort_featured_entries( $filters, $args ) {
+		public function sort_featured_entries( $filters, $args ) {
 
 			// If featured entries is enabled...
 			if ( $args['featured_entries_enabled'] ) {
@@ -92,7 +92,7 @@ function gv_extension_featured_entries_load() {
 
 		}
 
-		function featured_class( $class, $entry, $view ) {
+		public function featured_class( $class, $entry, $view ) {
 
 			// If featured entries is enabled...
 			if ( $view->atts['featured_entries_enabled'] ) {
@@ -116,4 +116,3 @@ function gv_extension_featured_entries_load() {
 	new GravityView_Featured_Entries;
 
 }
-
