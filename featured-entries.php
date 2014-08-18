@@ -77,7 +77,7 @@ function gv_extension_featured_entries_load() {
 
 				$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
 
-				// @TODO Add debug line here to say we updated
+				do_action( 'gravityview_log_debug', '[featured_entries] Updated sort filter to: ', $filters );
 
 			}
 
