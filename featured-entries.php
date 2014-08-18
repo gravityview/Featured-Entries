@@ -34,6 +34,12 @@ function gv_extension_featured_entries_load() {
 
 		protected $_path = __FILE__;
 
+
+		/**
+		 * Put all plugin hooks here
+		 *
+		 * @since 1.0.0
+		 */
 		function add_hooks() {
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style' ) );
@@ -48,12 +54,30 @@ function gv_extension_featured_entries_load() {
 
 		}
 
+
+		/**
+		 * Enqueue relevant stylesheets
+		 *
+		 * @since  1.0.0
+		 *
+		 * @return void
+		 */
 		public function enqueue_style() {
 
 			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'lib/css/featured-entries.css', array(), $this->_version );
 
 		}
 
+
+		/**
+		 * Add settings to the view setting array
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  array  $args Array of other view settings
+		 *
+		 * @return array        Appended aray of view settings
+		 */
 		public function featured_setting_arg( $args ) {
 
 			$settings = array(
@@ -71,12 +95,33 @@ function gv_extension_featured_entries_load() {
 
 		}
 
+
+		/**
+		 * Render the setting in the metabox
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  array  $current_settings Array of current settings
+		 *
+		 * @return void
+		 */
 		public function featured_settings( $current_settings ) {
 
 			GravityView_Admin_Views::render_setting_row( 'featured_entries_enabled', $current_settings );
 
 		}
 
+
+		/**
+		 * Maybe add a sort filter before grabbing entries
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  array  $filters Array of current pre-built filters
+		 * @param  array  $args    Array of settings for the current view
+		 *
+		 * @return array           Array of filters
+		 */
 		public function sort_featured_entries( $filters, $args ) {
 
 			// If featured entries is enabled...
@@ -92,6 +137,18 @@ function gv_extension_featured_entries_load() {
 
 		}
 
+
+		/**
+		 * Maybe add featured class to entry
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  string  $class Current class value
+		 * @param  array   $entry Array of entry data
+		 * @param  obj     $view  Current GravityView_View object
+		 *
+		 * @return string         CSS classes to use for the entry markup
+		 */
 		public function featured_class( $class, $entry, $view ) {
 
 			// If featured entries is enabled...
@@ -109,7 +166,6 @@ function gv_extension_featured_entries_load() {
 			return $class;
 
 		}
-
 
 	}
 
