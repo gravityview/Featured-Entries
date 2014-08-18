@@ -1,0 +1,109 @@
+<?php
+/*
+Plugin Name: GravityView - Featured Entries Extension
+Plugin URI: https://gravityview.co
+Description: Promote featured entries in views
+Version: 1.0.0
+Author: Katz Web Services, Inc.
+Author URI: https://katz.co
+Text Domain: gravity-view-featured-entries
+Domain Path: /languages/
+*/
+
+add_action( 'plugins_loaded', 'gv_extension_featured_entries_load' );
+
+/**
+ * Wrapper function to make sure GravityView_Extension has loaded
+ * @return void
+ */
+function gv_extension_featured_entries_load() {
+
+	// We prefer to use the one bundled with GravityView, but if it doesn't exist, go here.
+	if( !class_exists( 'GravityView_Extension' ) ) {
+		include_once plugin_dir_path( __FILE__ ) . 'lib/class-gravityview-extension.php';
+	}
+
+
+	class GravityView_Featured_Entries extends GravityView_Extension {
+
+		protected $_title = 'Featured_Entries';
+
+		protected $_version = '1.0.0';
+
+		protected $_min_gravityview_version = '1.1.2';
+
+		protected $_path = __FILE__;
+
+		function add_hooks() {
+
+			add_filter( 'gravityview_default_args', array( $this, 'featured_setting_arg' ) );
+
+			add_action( 'gravityview_admin_directory_settings', array( $this, 'featured_settings' ) );
+
+			add_filter( 'gravityview_get_entries', array( $this, 'sort_featured_entries' ) );
+
+			add_filter( 'gravityview_entry_class', array( $this, 'featured_class' ), 10, 3 );
+
+		}
+
+
+		function featured_setting_arg( $args ) {
+
+			$settings = array(
+				'name'              => __('Display Featured at Top', 'gravity-view'),
+				'type'              => 'checkbox',
+				'group'             => 'default',
+				'value'             => 1,
+				'tooltip'           => NULL,
+				'show_in_shortcode' => true,
+			);
+
+			$args['featured_entries_enabled'] = $settings;
+
+			return $args;
+
+		}
+
+		function featured_settings( $current_settings ) {
+
+			GravityView_Admin_Views::render_setting_row( 'featured_entries_enabled', $current_settings );
+
+		}
+
+		function sort_featured_entries( $filters ) {
+
+			// @TODO Add logic to toggle on and off
+
+			$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
+
+			// @TODO Add debug line here to say we updated
+
+			return $filters;
+
+		}
+
+		function featured_class( $class, $entry, $view ) {
+
+			// If featured entries is enabled...
+			if ( $view->atts['featured_entries_enabled'] ) {
+
+				// If the entry is starred, add the featured-entry class
+				if ( $entry['is_starred'] ) {
+
+					$class .= ' featured-entry';
+
+				}
+
+			}
+
+			return $class;
+
+		}
+
+
+	}
+
+	new GravityView_Featured_Entries;
+
+}
+
