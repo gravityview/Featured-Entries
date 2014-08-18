@@ -40,7 +40,7 @@ function gv_extension_featured_entries_load() {
 
 			add_action( 'gravityview_admin_directory_settings', array( $this, 'featured_settings' ) );
 
-			add_filter( 'gravityview_get_entries', array( $this, 'sort_featured_entries' ) );
+			add_filter( 'gravityview_get_entries', array( $this, 'sort_featured_entries' ), 10, 2 );
 
 			add_filter( 'gravityview_entry_class', array( $this, 'featured_class' ), 10, 3 );
 
@@ -70,13 +70,16 @@ function gv_extension_featured_entries_load() {
 
 		}
 
-		function sort_featured_entries( $filters ) {
+		function sort_featured_entries( $filters, $args ) {
 
-			// @TODO Add logic to toggle on and off
+			// If featured entries is enabled...
+			if ( $args['featured_entries_enabled'] ) {
 
-			$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
+				$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
 
-			// @TODO Add debug line here to say we updated
+				// @TODO Add debug line here to say we updated
+
+			}
 
 			return $filters;
 
