@@ -36,6 +36,8 @@ function gv_extension_featured_entries_load() {
 
 		function add_hooks() {
 
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style' ) );
+
 			add_filter( 'gravityview_default_args', array( $this, 'featured_setting_arg' ) );
 
 			add_action( 'gravityview_admin_directory_settings', array( $this, 'featured_settings' ) );
@@ -46,6 +48,11 @@ function gv_extension_featured_entries_load() {
 
 		}
 
+		function enqueue_style() {
+
+			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'lib/css/featured-entries.css', array(), $this->_version );
+
+		}
 
 		function featured_setting_arg( $args ) {
 
