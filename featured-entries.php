@@ -2,8 +2,8 @@
 /*
 Plugin Name: GravityView - Featured Entries Extension
 Plugin URI: https://gravityview.co
-Description: Promote featured entries in views
-Version: 1.0.0
+Description: Promote Featured entries in Views
+Version: 1.0.1
 Author: Katz Web Services, Inc.
 Author URI: https://katz.co
 Text Domain: gravity-view-featured-entries
@@ -26,11 +26,16 @@ function gv_extension_featured_entries_load() {
 
 	class GravityView_Featured_Entries extends GravityView_Extension {
 
-		protected $_title = 'Featured_Entries';
+		protected $_title = 'Featured Entries';
 
-		protected $_version = '1.0.0';
+		protected $_version = '1.0.1';
 
-		protected $_min_gravityview_version = '1.1.2';
+		protected $_text_domain = 'gravity-view-featured-entries';
+
+		/**
+		 * @todo Change to 1.1.6 pre-launch
+		 */
+		protected $_min_gravityview_version = '1.1.5';
 
 		protected $_path = __FILE__;
 
@@ -64,7 +69,7 @@ function gv_extension_featured_entries_load() {
 		 */
 		public function enqueue_style() {
 
-			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'lib/css/featured-entries.css', array(), $this->_version );
+			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'assets/css/featured-entries.css', array(), $this->_version );
 
 		}
 
@@ -81,18 +86,36 @@ function gv_extension_featured_entries_load() {
 		public function featured_setting_arg( $args ) {
 
 			$settings = array(
-				'name'              => __('Display Featured at Top', 'gravity-view'),
+				'name'              => __('Display Featured Entries at Top', 'gravity-view-featured-entries'),
 				'type'              => 'checkbox',
 				'group'             => 'default',
 				'value'             => 1,
-				'tooltip'           => NULL,
 				'show_in_shortcode' => true,
 			);
 
-			$args['featured_entries_enabled'] = $settings;
+			$args['featured_entries_to_top'] = $settings;
 
 			return $args;
 
+		}
+
+		/**
+		 * Add tooltip to display in Settings metabox
+		 *
+		 * @since  1.0.1
+		 *
+		 * @param  array  $tooltips Existing GV tooltips, with `title` and `value` keys
+		 *
+		 * @return array           Modified tooltips
+		 */
+		public function tooltips( $tooltips = array() ) {
+
+			$tooltips['gv_featured_entries_to_top'] = array(
+				'title'	=> __('Display Featured Entries at Top', 'gravity-view-featured-entries'),
+				'value'	=> __('Always move Featured entries to the top of search results. If not enabled, Featured entries will be shown in the default order, but will be highlighted.', 'gravity-view-featured-entries' ),
+			);
+
+			return $tooltips;
 		}
 
 
@@ -107,7 +130,7 @@ function gv_extension_featured_entries_load() {
 		 */
 		public function featured_settings( $current_settings ) {
 
-			GravityView_Admin_Views::render_setting_row( 'featured_entries_enabled', $current_settings );
+			GravityView_Admin_Views::render_setting_row( 'featured_entries_to_top', $current_settings );
 
 		}
 
@@ -122,10 +145,10 @@ function gv_extension_featured_entries_load() {
 		 *
 		 * @return array           Array of filters
 		 */
-		public function sort_featured_entries( $filters, $args ) {
+		public function sort_featured_entries( $filters, $args = array() ) {
 
 			// If featured entries is enabled...
-			if ( $args['featured_entries_enabled'] ) {
+			if ( !empty( $args['featured_entries_to_top'] ) ) {
 
 				$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
 
@@ -151,13 +174,19 @@ function gv_extension_featured_entries_load() {
 		 */
 		public function featured_class( $class, $entry, $view ) {
 
-			// If featured entries is enabled...
-			if ( $view->atts['featured_entries_enabled'] ) {
+			/**
+			 * Enable or disable featured entries for this entry
+			 *
+			 * @param GravityView_View $view The current GravityView_View instance
+			 * @param array $entry Gravity Forms entry array
+			 * @return boolean Whether to enable featured entries for this entry
+			 */
+			if ( apply_filters( 'gravityview_featured_entries_enable', true, $view, $entry ) ) {
 
 				// If the entry is starred, add the featured-entry class
 				if ( $entry['is_starred'] ) {
 
-					$class .= ' featured-entry';
+					$class .= ' gv-featured-entry';
 
 				}
 
