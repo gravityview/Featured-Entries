@@ -32,6 +32,8 @@ function gv_extension_featured_entries_load() {
 
 		protected $_text_domain = 'gravity-view-featured-entries';
 
+		protected $_featured_entries = array();
+
 		/**
 		 * @todo Change to 1.1.6 pre-launch
 		 */
@@ -53,7 +55,9 @@ function gv_extension_featured_entries_load() {
 
 			add_action( 'gravityview_admin_directory_settings', array( $this, 'featured_settings' ) );
 
-			add_filter( 'gravityview_get_entries', array( $this, 'sort_featured_entries' ), 10, 2 );
+			add_filter( 'gravityview_get_entries', array( $this, 'calculate_view_entries' ), 10, 3 );
+
+			add_filter( 'gravityview_view_entries', array( $this, 'sort_view_entries' ), 10, 2 );
 
 			add_filter( 'gravityview_entry_class', array( $this, 'featured_class' ), 10, 3 );
 
@@ -134,7 +138,6 @@ function gv_extension_featured_entries_load() {
 
 		}
 
-
 		/**
 		 * Maybe add a sort filter before grabbing entries
 		 *
@@ -145,19 +148,98 @@ function gv_extension_featured_entries_load() {
 		 *
 		 * @return array           Array of filters
 		 */
-		public function sort_featured_entries( $filters, $args = array() ) {
+		public function calculate_view_entries( $filters, $args = array(), $form_id ) {
 
 			// If featured entries is enabled...
 			if ( !empty( $args['featured_entries_to_top'] ) ) {
 
-				$filters['sorting'] = array( 'key' => 'is_starred', 'direction' => 'DESC' );
+				// Get featured entries and store in class property
+				$this->_featured_entries = $this->get_featured_entries( $args, $form_id );
 
-				do_action( 'gravityview_log_debug', '[featured_entries] Updated sort filter to: ', $filters );
+				$featured_count = count( $this->_featured_entries );
+
+				do_action( 'gravityview_log_debug', '[featured_entries] Found ' . $featured_count . ' Featured Entries', $this->_featured_entries );
+
+				// Only get entries that aren't starred
+				$filters['search_criteria']['field_filters'][] = array( 'key' => 'is_starred', 'value' => 0, 'operator' => '=' );
+
+				// Calculate paging based on the number of featured entries returned
+				$paging = $this->calculate_paging( $featured_count, $args );
+
+				if ( ! empty( $paging ) ) {
+
+					$filters['paging'] = $paging;
+
+				}
+
+				do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
 
 			}
 
 			return $filters;
 
+		}
+
+		protected function get_featured_entries( $args = array(), $form_id ) {
+
+			$parameters = array();
+
+			// Only starred entries
+			$parameters['search_criteria']['field_filters'][] = array( 'key' => 'is_starred', 'value' => 1, 'operator' => '=' );
+			$parameters['search_criteria']['status'] = 'active';
+
+			// Apply the same sorting to featured entries query
+			if( ! empty( $args['sort_field'] ) ) {
+				$parameters['sorting'] = array( 'key' => $args['sort_field'], 'direction' => $args['sort_direction'] );
+			}
+
+			// Paging & offset
+			$page_size = !empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
+
+			if( isset( $args['offset'] ) ) {
+				$offset = $args['offset'];
+			} else {
+				$curr_page = empty( $_GET['pagenum'] ) ? 1 : intval( $_GET['pagenum'] );
+				$offset = ( $curr_page - 1 ) * $page_size;
+			}
+			$parameters['paging'] = array( 'offset' => $offset, 'page_size' => $page_size );
+
+			$featured = gravityview_get_entries( $form_id, $parameters );
+
+			return $featured;
+
+		}
+
+		protected function calculate_paging( $featured_count = 0, $args = array() ) {
+
+			// @TODO: This part doesn't work
+
+			$page_size = ! empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
+
+			$page_size = $page_size - $featured_count;
+
+			if( isset( $args['offset'] ) ) {
+				$offset = $args['offset'];
+			} else {
+				$curr_page = empty( $_GET['pagenum'] ) ? 1 : intval( $_GET['pagenum'] );
+				$offset = ( $curr_page - 1 ) * $page_size;
+			}
+
+			$paging = array( 'offset' => $offset, 'page_size' => $page_size );
+
+			return $paging;
+
+		}
+
+		public function sort_view_entries( $entries, $args ) {
+
+			if ( ! empty ( $this->_featured_entries ) ) {
+
+				return array_merge( $this->_featured_entries, $entries );
+
+			}
+
+			return $entries;
 		}
 
 
