@@ -89,7 +89,7 @@ function gv_extension_featured_entries_load() {
 				'name'              => __('Display Featured Entries at Top', 'gravity-view-featured-entries'),
 				'type'              => 'checkbox',
 				'group'             => 'default',
-				'value'             => 1,
+				'value'             => 0,
 				'show_in_shortcode' => true,
 			);
 
