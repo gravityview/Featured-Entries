@@ -162,13 +162,13 @@ function gv_extension_featured_entries_load() {
 			if ( ! empty( $args['featured_entries_to_top'] ) ) {
 
 				// Get all featured entries
-				$all_featured_entries  = $this->get_featured_entries( $args, $form_id, true );
+				$all_featured_entries  = $this->get_featured_entries( $filters, $args, $form_id, true );
 				$this->_featured_count = count( $all_featured_entries );
 
 				do_action( 'gravityview_log_debug', '[featured_entries] Found ' . $this->_featured_count . ' Featured Entries', $all_featured_entries );
 
 				// Now get just the featured entries needed for the current page
-				$this->_featured_entries = $this->get_featured_entries( $args, $form_id );
+				$this->_featured_entries = $this->get_featured_entries( $filters, $args, $form_id );
 
 				do_action( 'gravityview_log_debug', '[featured_entries] Featured entries for current page', $all_featured_entries );
 
@@ -202,15 +202,25 @@ function gv_extension_featured_entries_load() {
 		 *
 		 * @since  1.0.2
 		 *
+		 * @param  array   $parameters Existing search parameters for current view
 		 * @param  array   $args    Args array for current view
 		 * @param  int     $form_id Gravity Forms form ID the current view is using
 		 * @param  boolean $all     Whether all featured entries should be queried or limited to current page
 		 *
 		 * @return array            Array of form entries; may be empty
 		 */
-		protected function get_featured_entries( $args = array(), $form_id, $all = false ) {
+		protected function get_featured_entries( $parameters = array(), $args = array(), $form_id, $all = false ) {
 
-			$parameters = array();
+			/**
+			 * Allow override of default behavior, which is to respect search queries.
+			 *
+			 * @var boolean If returned true, featured entries will be shown even if the search doesn't match the entry
+			 */
+			if( apply_filters( 'gravityview_featured_entries_always_show', false ) ) {
+
+				$parameters = array();
+
+			}
 
 			// Only starred entries
 			$parameters['search_criteria']['field_filters'][] = array( 'key' => 'is_starred', 'value' => 1, 'operator' => '=' );
