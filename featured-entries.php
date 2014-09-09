@@ -2,11 +2,11 @@
 /*
 Plugin Name: GravityView - Featured Entries Extension
 Plugin URI: https://gravityview.co
-Description: Promote Featured entries in Views
-Version: 1.0.3
+Description: Promote entries as Featured in Views
+Version: 1.0.4
 Author: Katz Web Services, Inc.
 Author URI: https://katz.co
-Text Domain: gravity-view-featured-entries
+Text Domain: gravityview-featured-entries
 Domain Path: /languages/
 */
 
@@ -30,9 +30,9 @@ function gv_extension_featured_entries_load() {
 
 		protected $_title            = 'Featured Entries';
 
-		protected $_version          = '1.0.3';
+		protected $_version          = '1.0.4';
 
-		protected $_text_domain      = 'gravity-view-featured-entries';
+		protected $_text_domain      = 'gravityview-featured-entries';
 
 		protected $_featured_entries = array();
 
@@ -42,7 +42,7 @@ function gv_extension_featured_entries_load() {
 		/**
 		 * @todo Change to 1.1.6 pre-launch
 		 */
-		protected $_min_gravityview_version = '1.1.5';
+		protected $_min_gravityview_version = '1.1.6';
 
 		protected $_path = __FILE__;
 
@@ -95,7 +95,7 @@ function gv_extension_featured_entries_load() {
 		public function featured_setting_arg( $args ) {
 
 			$settings = array(
-				'name'              => __( 'Display Featured Entries at Top', 'gravity-view-featured-entries' ),
+				'name'              => __( 'Move Featured Entries to Top', 'gravityview-featured-entries' ),
 				'type'              => 'checkbox',
 				'group'             => 'default',
 				'value'             => 0,
@@ -121,8 +121,8 @@ function gv_extension_featured_entries_load() {
 		public function tooltips( $tooltips = array() ) {
 
 			$tooltips['gv_featured_entries_to_top'] = array(
-				'title'	=> __( 'Display Featured Entries at Top', 'gravity-view-featured-entries' ),
-				'value'	=> __( 'Always move Featured entries to the top of search results. If not enabled, Featured entries will be shown in the default order, but will be highlighted.', 'gravity-view-featured-entries' ),
+				'title'	=> __( 'Move Featured Entries to Top', 'gravityview-featured-entries' ),
+				'value'	=> __( 'Always move Featured (starred) entries to the top of search results. If not enabled, Featured entries will be shown in the default order, but will be highlighted.', 'gravityview-featured-entries' ),
 			);
 
 			return $tooltips;
@@ -187,7 +187,7 @@ function gv_extension_featured_entries_load() {
 				do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
 
 				// Adjust pagination text and links to show the correct total
-				add_filter( 'gravityview_pagination_output', array( $this, 'fix_pagination_total' ),      10, 4 );
+				add_filter( 'gravityview_pagination_counts', array( $this, 'fix_pagination_counts' ),      10, 4 );
 				add_filter( 'gravityview_page_links_args',   array( $this, 'fix_pagination_page_links' ), 10, 1 );
 
 			}
@@ -351,14 +351,16 @@ function gv_extension_featured_entries_load() {
 		 *
 		 * @since  1.0.2
 		 *
-		 * @param  string  $output Original markup being output
+		 * @see GravityView_Widget_Pagination_Info::render_frontend()
+		 *
+		 * @param  array  $counts Array with first, last, total values
 		 * @param  int     $first  Starting entry count
 		 * @param  int     $last   Ending entry count
 		 * @param  int     $total  Total entry count
 		 *
-		 * @return string          Markup with fixed total entry count
+		 * @return string          Array with fixed first, last, total values
 		 */
-		public function fix_pagination_total( $output, $first, $last, $total ) {
+		public function fix_pagination_counts( $counts = array() ) {
 
 			global $gravityview_view;
 
@@ -378,7 +380,7 @@ function gv_extension_featured_entries_load() {
 
 			}
 
-			return '<div class="gv-widget-pagination"><p>'. sprintf(__( 'Displaying %1$s - %2$s of %3$s', 'gravity-view' ), $first , $last , $total ) . '</p></div>';
+			return array( $first, $last, $total );
 
 		}
 

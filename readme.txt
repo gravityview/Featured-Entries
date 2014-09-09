@@ -16,6 +16,17 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.0.4 =
+* Use different filter to modify pagination, changing just the numbers, not the text
+
+= 1.0.3 = 
+* Support existing search filters
+* Add `gravityview_featured_entries_always_show` filter, which allows override of default behavior, which is to respect search queries.
+
+= 1.0.2 =
+* Fixed entry pagination
+* Code cleanup
+
 = 1.0.1 =
 * Added translations 
 * Added `gravityview_featured_entries_enable` filter in the `featured_class()` method
