@@ -3,7 +3,7 @@
 Plugin Name: GravityView - Featured Entries Extension
 Plugin URI: https://gravityview.co
 Description: Promote entries as Featured in Views
-Version: 1.0.4
+Version: 1.0.5
 Author: Katz Web Services, Inc.
 Author URI: https://katz.co
 Text Domain: gravityview-featured-entries
@@ -18,11 +18,14 @@ add_action( 'plugins_loaded', 'gv_extension_featured_entries_load' );
  */
 function gv_extension_featured_entries_load() {
 
-	// We prefer to use the one bundled with GravityView, but if it doesn't exist, go here.
-	if ( ! class_exists( 'GravityView_Extension' ) ) {
+	if( !class_exists( 'GravityView_Extension' ) ) {
 
-		include_once plugin_dir_path( __FILE__ ) . 'lib/class-gravityview-extension.php';
-
+		if( class_exists('GravityView_Plugin') && is_callable(array('GravityView_Plugin', 'include_extension_framework')) ) {
+			GravityView::include_extension_framework();
+		} else {
+			// We prefer to use the one bundled with GravityView, but if it doesn't exist, go here.
+			include_once plugin_dir_path( __FILE__ ) . 'lib/class-gravityview-extension.php';
+		}
 	}
 
 
@@ -30,7 +33,7 @@ function gv_extension_featured_entries_load() {
 
 		protected $_title            = 'Featured Entries';
 
-		protected $_version          = '1.0.4';
+		protected $_version          = '1.0.5';
 
 		protected $_text_domain      = 'gravityview-featured-entries';
 
