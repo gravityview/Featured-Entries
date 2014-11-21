@@ -19,6 +19,8 @@ Enable Featured Entries in GravityView.
 = 1.0.5 =
 * Add styling support for DataTables (Requires DataTables Extension Version 1.2+)
 * Updated some functions to work better with latest versions of GravityView
+* Added Dutch translation (thanks [@erikvanbeek](https://www.transifex.com/accounts/profile/erikvanbeek/)!)
+* Added Turkish translation (thanks, [@suhakaralar](https://www.transifex.com/accounts/profile/suhakaralar/)!)
 
 = 1.0.4 =
 * Use different filter to modify pagination, changing just the numbers, not the text
