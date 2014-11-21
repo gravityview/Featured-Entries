@@ -5,7 +5,7 @@ Plugin URI: https://gravityview.co/extensions/featured-entries/
 Description: Promote entries as Featured in Views
 Version: 1.0.5
 Author: Katz Web Services, Inc.
-Author URI: https://katz.co
+Author URI: https://gravityview.co
 Text Domain: gravityview-featured-entries
 Domain Path: /languages/
 */
@@ -41,11 +41,7 @@ function gv_extension_featured_entries_load() {
 
 		protected $_featured_count   = 0;
 
-
-		/**
-		 * @todo Change to 1.1.6 pre-launch
-		 */
-		protected $_min_gravityview_version = '1.1.6';
+		protected $_min_gravityview_version = '1.1.7';
 
 		protected $_path = __FILE__;
 
@@ -59,6 +55,8 @@ function gv_extension_featured_entries_load() {
 
 			add_action( 'wp_enqueue_scripts',                   array( $this, 'enqueue_style' )                 );
 
+			add_action( 'gravityview_datatables_scripts_styles', array( $this, 'enqueue_datatables_style' ) 	);
+
 			add_filter( 'gravityview_default_args',             array( $this, 'featured_setting_arg' )          );
 
 			add_action( 'gravityview_admin_directory_settings', array( $this, 'featured_settings' )             );
@@ -69,6 +67,24 @@ function gv_extension_featured_entries_load() {
 
 			add_filter( 'gravityview_entry_class',              array( $this, 'featured_class' ),         10, 3 );
 
+			add_filter( 'gravityview_field_entry_value',        array( $this, 'datatables_featured_class'), 10, 3 );
+
+		}
+
+		/**
+		 * Add a HTML element on featured entry inputs so that the jQuery code can find which entries are featured
+		 * @param  string $output         Existing field output
+		 * @param  array  $entry          GF Entry array
+		 * @param  array  $field_settings GV Field settings array
+		 * @return string                 Modified output, if the entry is starred. If not, original output.
+		 */
+		function datatables_featured_class( $output = '', $entry = array(), $field_settings = array() ) {
+
+			if( !empty( $output ) && $entry['is_starred'] ) {
+				$output .= '<span class="featured"></span>';
+			}
+
+			return $output;
 		}
 
 
@@ -82,6 +98,21 @@ function gv_extension_featured_entries_load() {
 		public function enqueue_style() {
 
 			wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'assets/css/featured-entries.css', array(), $this->_version );
+
+			wp_enqueue_script( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'assets/js/featured-entries.min.js', array('gv-datatables'), $this->_version );
+
+		}
+
+		/**
+		 * Enqueue DataTables stylesheets, after it is registered by the DataTables extension.
+		 *
+		 * @since  1.0.0
+		 *
+		 * @return void
+		 */
+		public function enqueue_datatables_style() {
+
+			wp_enqueue_style( 'gv-datatables-featured-entries');
 
 		}
 
@@ -98,7 +129,7 @@ function gv_extension_featured_entries_load() {
 		public function featured_setting_arg( $args ) {
 
 			$settings = array(
-				'name'              => __( 'Move Featured Entries to Top', 'gravityview-featured-entries' ),
+				'label'              => __( 'Move Featured Entries to Top', 'gravityview-featured-entries' ),
 				'type'              => 'checkbox',
 				'group'             => 'default',
 				'value'             => 0,
@@ -144,7 +175,7 @@ function gv_extension_featured_entries_load() {
 		 */
 		public function featured_settings( $current_settings ) {
 
-			GravityView_Admin_Views::render_setting_row( 'featured_entries_to_top', $current_settings );
+			GravityView_Render_Settings::render_setting_row( 'featured_entries_to_top', $current_settings );
 
 		}
 
