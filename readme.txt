@@ -16,6 +16,10 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.0.6 =
+* Fixed: Not showing entries when all were featured
+* Fixed: Flush GravityView cache when entry is starred or un starred
+
 = 1.0.5 =
 * Add styling support for DataTables (Requires DataTables Extension Version 1.2+)
 * Updated some functions to work better with latest versions of GravityView
@@ -25,7 +29,7 @@ Enable Featured Entries in GravityView.
 = 1.0.4 =
 * Use different filter to modify pagination, changing just the numbers, not the text
 
-= 1.0.3 = 
+= 1.0.3 =
 * Support existing search filters
 * Add `gravityview_featured_entries_always_show` filter, which allows override of default behavior, which is to respect search queries.
 
@@ -34,7 +38,7 @@ Enable Featured Entries in GravityView.
 * Code cleanup
 
 = 1.0.1 =
-* Added translations 
+* Added translations
 * Added `gravityview_featured_entries_enable` filter in the `featured_class()` method
 * Moved CSS to `/assets/css/`
 * Namespaced CSS class
@@ -42,5 +46,5 @@ Enable Featured Entries in GravityView.
 * Modified required GravityView version
 * Added readme.txt
 
-= 1.0 = 
+= 1.0 =
 * From Ryan
