@@ -69,6 +69,9 @@ function gv_extension_featured_entries_load() {
 
 			add_filter( 'gravityview_field_entry_value',        array( $this, 'datatables_featured_class'), 10, 3 );
 
+			// destroy cache when entry is starred or un-starred
+			add_action('gform_update_is_starred',				array( $this, 'flush_cache' ), 10, 3 );
+
 		}
 
 		/**
@@ -219,10 +222,6 @@ function gv_extension_featured_entries_load() {
 				}
 
 				do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
-
-				// Adjust pagination text and links to show the correct total
-				add_filter( 'gravityview_pagination_counts', array( $this, 'fix_pagination_counts' ),      10, 4 );
-				add_filter( 'gravityview_page_links_args',   array( $this, 'fix_pagination_page_links' ), 10, 1 );
 
 			}
 
@@ -385,66 +384,6 @@ function gv_extension_featured_entries_load() {
 		}
 
 
-		/**
-		 * Adjust pagination total to include featured entries
-		 *
-		 * @since  1.0.2
-		 *
-		 * @see GravityView_Widget_Pagination_Info::render_frontend()
-		 *
-		 * @param  array  $counts Array with first, last, total values
-		 * @param  int     $first  Starting entry count
-		 * @param  int     $last   Ending entry count
-		 * @param  int     $total  Total entry count
-		 *
-		 * @return string          Array with fixed first, last, total values
-		 */
-		public function fix_pagination_counts( $counts = array() ) {
-
-			global $gravityview_view;
-
-			$offset    = $gravityview_view->paging['offset'];
-			$page_size = $gravityview_view->paging['page_size'];
-			$total     = $gravityview_view->total_entries + $this->_featured_count;
-
-			// displaying info
-			if( 0 == $total ) {
-
-				$first = $last = 0;
-
-			} else {
-
-				$first = empty( $offset ) ? 1 : $offset + 1;
-				$last = $offset + $page_size > $total ? $total : $offset + $page_size;
-
-			}
-
-			return array( $first, $last, $total );
-
-		}
-
-
-		/**
-		 * Adjust total so pagination links are correct
-		 *
-		 * @since  1.0.2
-		 *
-		 * @param  array  $args Array of pagination args
-		 *
-		 * @return array        Updated array of pagination args
-		 */
-		public function fix_pagination_page_links( $args ) {
-
-			global $gravityview_view;
-
-			$page_size = $gravityview_view->paging['page_size'];
-			$total     = $gravityview_view->total_entries + $this->_featured_count;
-
-			$args['total'] = empty( $page_size ) ? 0 : ceil( $total / $page_size );
-
-			return $args;
-
-		}
 
 
 		/**
@@ -481,6 +420,36 @@ function gv_extension_featured_entries_load() {
 			return $class;
 
 		}
+
+		/**
+		 * Flush the GravityView cache if the entry 'is_starred' property changes
+		 * @param  int $entry_id       the entry id
+		 * @param  [type] $property_value [description]
+		 * @param  [type] $previous_value [description]
+		 * @return void
+		 */
+		function flush_cache( $entry_id, $property_value, $previous_value ) {
+
+			if( !class_exists( 'GFAPI' ) ) {
+				return;
+			}
+
+			$entry = GFAPI::get_entry( $entry_id );
+
+			if( empty( $entry['form_id'] ) ) {
+				return;
+			}
+
+			/**
+			 * Flush the GravityView cache for this form
+			 * @see class-cache.php
+			 * @since 1.5.1
+			 */
+			do_action( 'gravityview_clear_form_cache', $entry['form_id'] );
+
+		}
+
+
 
 	}
 
