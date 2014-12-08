@@ -41,7 +41,7 @@ function gv_extension_featured_entries_load() {
 
 		protected $_featured_count   = 0;
 
-		protected $_min_gravityview_version = '1.1.7';
+		protected $_min_gravityview_version = '1.5.2';
 
 		protected $_path = __FILE__;
 
@@ -63,7 +63,7 @@ function gv_extension_featured_entries_load() {
 
 			add_filter( 'gravityview_get_entries',              array( $this, 'calculate_view_entries' ), 10, 3 );
 
-			add_filter( 'gravityview_view_entries',             array( $this, 'sort_view_entries' ),      10, 2 );
+			add_filter( 'gravityview/view/entries',             array( $this, 'sort_view_entries' ),      10, 2 );
 
 			add_filter( 'gravityview_entry_class',              array( $this, 'featured_class' ),         10, 3 );
 
@@ -359,24 +359,29 @@ function gv_extension_featured_entries_load() {
 
 
 		/**
-		 * Prepend featured entries if they exist
+		 * Prepend featured entries if they exist & recalculate count (total entries)
 		 *
 		 * @since  1.0.2
 		 *
-		 * @param  array  $entries Array of featured entries
+		 * @param  array  $view Associative array containing count, entries & paging
 		 * @param  array  $args    Args array for current view
 		 *
 		 * @return array           A combined array of entries
 		 */
-		public function sort_view_entries( $entries, $args ) {
+		public function sort_view_entries( $view, $args ) {
+
 
 			if ( ! empty ( $this->_featured_entries ) ) {
 
-				return array_merge( $this->_featured_entries, $entries );
+				// prepend featured entries to the regular entries result
+				$view['entries'] = array_merge( $this->_featured_entries, $view['entries'] );
+
+				// adjust count ( @since 1.0.6 )
+				$view['count'] += $this->_featured_count;
 
 			}
 
-			return $entries;
+			return $view;
 		}
 
 
