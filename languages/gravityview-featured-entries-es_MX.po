@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2014-11-21 11:59-0700\n"
-"PO-Revision-Date: 2014-11-21 19:00+0000\n"
+"PO-Revision-Date: 2014-12-03 13:17+0000\n"
 "Last-Translator: Zachary Katz <zack@katz.co>\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/gravityview-featured-entries/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr ""
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: lib/class-gravityview-extension.php:159
 #, php-format
