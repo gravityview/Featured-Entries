@@ -16,9 +16,9 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
-= 1.0.6 =
-* Fixed: Not showing entries when all were featured
-* Fixed: Flush GravityView cache when entry is starred or un starred
+= 1.0.6 on December 12 =
+* Fixed: Not showing entries when all entries were featured
+* Fixed: Flush GravityView cache when entry is starred or un-starred
 
 = 1.0.5 =
 * Add styling support for DataTables (Requires DataTables Extension Version 1.2+)
