@@ -1,6 +1,6 @@
 <?php
 /**
- * @version 1.0.3
+ * @version 1.0.6
  */
 abstract class GravityView_Extension {
 
@@ -8,13 +8,15 @@ abstract class GravityView_Extension {
 
 	protected $_version = NULL;
 
-	protected $_text_domain = 'gravity-view';
+	protected $_text_domain = 'gravityview';
 
-	protected $_min_gravityview_version = '1.1.2';
+	protected $_min_gravityview_version = '1.1.5';
 
 	protected $_remote_update_url = 'https://gravityview.co';
 
 	protected $_author = 'Katz Web Services, Inc.';
+
+	protected $_path = NULL;
 
 	static private $admin_notices = array();
 
@@ -46,14 +48,35 @@ abstract class GravityView_Extension {
 	 * @return void
 	 */
 	function load_plugin_textdomain() {
-
 		if( empty( $this->_text_domain ) ) { return; }
 
-		load_plugin_textdomain( $this->_text_domain , false, plugin_dir_path( __FILE__ ). 'languages/' );
+		// Set filter for plugin's languages directory
+		$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+
+		// Traditional WordPress plugin locale filter
+		$locale = apply_filters( 'plugin_locale',  get_locale(), $this->_text_domain );
+
+		$mofile = sprintf( '%1$s-%2$s.mo', $this->_text_domain, $locale );
+
+		// Setup paths to current locale file
+		$mofile_local  = $lang_dir . $mofile;
+		$mofile_global = WP_LANG_DIR . '/' . $this->_text_domain . '/' . $mofile;
+
+		if ( file_exists( $mofile_global ) ) {
+			// Look in global /wp-content/languages/[plugin-dir]/ folder
+			load_textdomain( $this->_text_domain, $mofile_global );
+		}
+		elseif ( file_exists( $mofile_local ) ) {
+			// Look in local /wp-content/plugins/[plugin-dir]/languages/ folder
+			load_textdomain( $this->_text_domain, $mofile_local );
+		}
+		else {
+			// Load the default language files
+			load_plugin_textdomain( $this->_text_domain, false, $lang_dir );
+		}
 	}
 
 	function settings( $settings ) {
-
 		if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
 			include_once plugin_dir_path( __FILE__ ) . 'EDD_SL_Plugin_Updater.php';
 		}
