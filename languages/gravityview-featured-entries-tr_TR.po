@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2014-11-21 11:59-0700\n"
-"PO-Revision-Date: 2014-11-21 19:10+0000\n"
+"PO-Revision-Date: 2014-12-12 12:51+0000\n"
 "Last-Translator: Zachary Katz <zack@katz.co>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/gravityview-featured-entries/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +51,7 @@ msgstr "Eklenti güncellemelerini yükleme yetkiniz yok"
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: lib/class-gravityview-extension.php:159
 #, php-format
