@@ -3,7 +3,7 @@
 Plugin Name: GravityView - Featured Entries Extension
 Plugin URI: https://gravityview.co/extensions/featured-entries/
 Description: Promote entries as Featured in Views
-Version: 1.0.6
+Version: 1.1
 Author: Katz Web Services, Inc.
 Author URI: https://gravityview.co
 Text Domain: gravityview-featured-entries
@@ -35,7 +35,7 @@ function gv_extension_featured_entries_load() {
 
 		protected $_title            = 'Featured Entries';
 
-		protected $_version          = '1.0.6';
+		protected $_version          = '1.1';
 
 		protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -204,10 +204,12 @@ function gv_extension_featured_entries_load() {
 		public function calculate_view_entries( $filters, $args = array(), $form_id ) {
 
 			// If featured entries is enabled...
-			if ( ! empty( $args['featured_entries_to_top'] ) ) {
+			if ( !empty( $args['featured_entries_to_top'] ) ) {
+
 
 				// Get all featured entries
-				$all_featured_entries  = $this->get_featured_entries( $filters, $args, $form_id, true );
+				$all_featured_entries = $this->get_featured_entries( $filters, $args, $form_id, true );
+
 				$this->_featured_count = count( $all_featured_entries );
 
 				do_action( 'gravityview_log_debug', '[featured_entries] Found ' . $this->_featured_count . ' Featured Entries', $all_featured_entries );
@@ -218,7 +220,11 @@ function gv_extension_featured_entries_load() {
 				do_action( 'gravityview_log_debug', '[featured_entries] Featured entries for current page', $all_featured_entries );
 
 				// Only get entries that aren't starred
-				$filters['search_criteria']['field_filters'][] = array( 'key' => 'is_starred', 'value' => 0, 'operator' => '=' );
+				$filters['search_criteria']['field_filters'][] = array(
+					'key'      => 'is_starred',
+					'value'    => 0,
+					'operator' => '='
+				);
 
 				// Calculate paging based on the number of featured entries returned
 				$paging = $this->calculate_paging( $this->_featured_count, $args );
@@ -472,18 +478,18 @@ function gv_extension_featured_entries_load() {
 		 */
 		public function recent_entries_criteria( $filters, $instance, $form_id ) {
 
-			if( empty( $instance['featured'] ) ) {
-				return $filters;
-			}
 			// This requires GravityView 1.7+
 			$version_check = version_compare( GravityView_Plugin::version, '1.7', '>=' );
 
-			// Only get entries thaten't starred
-			$filters['search_criteria']['field_filters'][] = array(
-				'key' => 'is_starred',
-				'value' => 1,
-				'operator' => '='
-			);
+			if( $version_check && !empty( $instance['featured'] ) ) {
+
+				// Only get entries that are starred
+				$filters['search_criteria']['field_filters'][] = array(
+					'key'      => 'is_starred',
+					'value'    => 1,
+					'operator' => '='
+				);
+			}
 
 			return $filters;
 		}
@@ -519,5 +525,4 @@ function gv_extension_featured_entries_load() {
 	}
 
 	new GravityView_Featured_Entries;
-
 }
