@@ -16,6 +16,9 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.1 on March 5, 2015 =
+* Added:
+
 = 1.0.6 on December 12 =
 * Fixed: Not showing entries when all entries were featured
 * Fixed: Flush GravityView cache when entry is starred or un-starred

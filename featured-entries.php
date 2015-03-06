@@ -28,7 +28,9 @@ function gv_extension_featured_entries_load() {
 		}
 	}
 
-
+	/**
+	 * Class GravityView_Featured_Entries
+	 */
 	class GravityView_Featured_Entries extends GravityView_Extension {
 
 		protected $_title            = 'Featured Entries';
@@ -222,19 +224,14 @@ function gv_extension_featured_entries_load() {
 				$paging = $this->calculate_paging( $this->_featured_count, $args );
 
 				if ( ! empty( $paging ) ) {
-
 					$filters['paging'] = $paging;
-
 				}
 
 				do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
-
 			}
 
 			return $filters;
-
 		}
-
 
 		/**
 		 * Query featured entries
@@ -253,7 +250,7 @@ function gv_extension_featured_entries_load() {
 			/**
 			 * Allow override of default behavior, which is to respect search queries.
 			 *
-			 * @var boolean If returned true, featured entries will be shown even if the search doesn't match the entry
+			 * @param boolean $always_show_featured_entry If returned true, featured entries will be shown even if the search doesn't match the entry
 			 */
 			if( apply_filters( 'gravityview_featured_entries_always_show', false ) ) {
 
@@ -381,7 +378,10 @@ function gv_extension_featured_entries_load() {
 				// prepend featured entries to the regular entries result
 				$view['entries'] = array_merge( $this->_featured_entries, $view['entries'] );
 
-				// adjust count ( @since 1.0.6 )
+				/**
+				 * Adjust count
+				 * @since 1.0.6
+				 */
 				$view['count'] += $this->_featured_count;
 
 			}
@@ -399,7 +399,7 @@ function gv_extension_featured_entries_load() {
 		 *
 		 * @param  string  $class Current class value
 		 * @param  array   $entry Array of entry data
-		 * @param  obj     $view  Current GravityView_View object
+		 * @param  GravityView_View     $view  Current GravityView_View object
 		 *
 		 * @return string         CSS classes to use for the entry markup
 		 */
@@ -429,9 +429,13 @@ function gv_extension_featured_entries_load() {
 
 		/**
 		 * Flush the GravityView cache if the entry 'is_starred' property changes
+		 *
+		 * @see GFFormsModel::update_lead_property()
+		 *
 		 * @param  int $entry_id       the entry id
-		 * @param  [type] $property_value [description]
-		 * @param  [type] $previous_value [description]
+		 * @param  mixed $property_value New value of the Gravity Forms meta
+		 * @param  mixed $previous_value Previous value of the Gravity Forms meta
+		 *
 		 * @return void
 		 */
 		function flush_cache( $entry_id, $property_value, $previous_value ) {
@@ -456,13 +460,15 @@ function gv_extension_featured_entries_load() {
 		}
 
 		/**
-		 * @since 1.7
+		 * Modify the search criteria for the Recent Entries widget to add the Featured Entries search filter
 		 *
-		 * @param $filters
-		 * @param $instance
-		 * @param $form_id
+		 * @param array $filters
+		 * @param array $instance The settings for the particular instance of the widget.
+		 * @param int $form_id The ID of the form for the search
 		 *
-		 * @return mixed
+		 * @since 1.1
+		 *
+		 * @return array If the widget has `featured` setting enabled, then modified $filters. Otherwise, original.
 		 */
 		public function recent_entries_criteria( $filters, $instance, $form_id ) {
 
