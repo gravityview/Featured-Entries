@@ -143,7 +143,6 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		);
 
 		return $tooltips;
-
 	}
 
 
@@ -368,8 +367,6 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	}
 
 
-
-
 	/**
 	 * Maybe add featured class to entry
 	 *
@@ -486,9 +483,9 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		?>
 		<p>
 			<label>
-				<span><?php _e( 'Limit to featured entries:', 'gravityview-featured-entries' ); ?>&nbsp;</span>
+				<span><?php _e( 'Only show featured entries:', 'gravityview-featured-entries' ); ?>&nbsp;</span>
 				<input name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="hidden" value="0" />
-				<input <?php checked( true, !empty( $instance['featured'] ) ); ?> id="<?php echo $widget->get_field_id( 'featured' ); ?>" name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="checkbox" value="1" />
+				<input <?php checked( true, !empty( $instance['featured'] ) ); ?> id="<?php echo $widget->get_field_id( 'featured' ); ?>" name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="checkbox" class="checkbox" value="1" />
 			</label>
 		</p>
 	<?php

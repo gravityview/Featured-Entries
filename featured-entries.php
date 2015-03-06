@@ -28,6 +28,9 @@ function gv_extension_featured_entries_load() {
 		}
 	}
 
+	/**
+	 * Load the plugin class
+	 */
 	include_once plugin_dir_path( __FILE__ ) . 'class-gravityview-featured-entries.php';
 
 }
