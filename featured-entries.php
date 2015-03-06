@@ -373,7 +373,7 @@ function gv_extension_featured_entries_load() {
 		public function sort_view_entries( $view, $args ) {
 
 
-			if ( ! empty ( $this->_featured_entries ) ) {
+			if ( ! empty ( $this->_featured_count ) ) {
 
 				// prepend featured entries to the regular entries result
 				$view['entries'] = array_merge( $this->_featured_entries, $view['entries'] );
