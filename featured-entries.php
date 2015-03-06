@@ -72,6 +72,12 @@ function gv_extension_featured_entries_load() {
 			// destroy cache when entry is starred or un-starred
 			add_action('gform_update_is_starred',				array( $this, 'flush_cache' ), 10, 3 );
 
+			/** @since 1.1 */
+			add_action( 'gravityview_recent_entries_widget_form', array( $this, 'recent_entries_widget_setting' ), 10, 2 );
+
+			/** @since 1.1 */
+			add_filter( 'gravityview/widget/recent-entries/criteria', array( $this, 'recent_entries_criteria' ), 10, 3 );
+
 		}
 
 		/**
@@ -449,7 +455,53 @@ function gv_extension_featured_entries_load() {
 
 		}
 
+		/**
+		 * @since 1.7
+		 *
+		 * @param $filters
+		 * @param $instance
+		 * @param $form_id
+		 *
+		 * @return mixed
+		 */
+		public function recent_entries_criteria( $filters, $instance, $form_id ) {
 
+			if( empty( $instance['featured'] ) ) {
+				return $filters;
+			}
+
+			// Only get entries thaten't starred
+			$filters['search_criteria']['field_filters'][] = array(
+				'key' => 'is_starred',
+				'value' => 1,
+				'operator' => '='
+			);
+
+			return $filters;
+		}
+
+		/**
+		 * Render the setting for the Recent Entries widget
+		 *
+		 * @param WP_Widget $widget Widget object
+		 * @param array $instance Widget settings
+		 *
+		 * @since 1.1
+		 *
+		 * @return void
+		 */
+		function recent_entries_widget_setting( WP_Widget $widget , $instance = array() ) {
+
+			?>
+			<p>
+				<label>
+					<span><?php _e( 'Limit to featured entries:', 'gravityview-featured-entries' ); ?>&nbsp;</span>
+					<input name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="hidden" value="0" />
+					<input <?php checked( true, !empty( $instance['featured'] ) ); ?> id="<?php echo $widget->get_field_id( 'featured' ); ?>" name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="checkbox" value="1" />
+				</label>
+			</p>
+		<?php
+		}
 
 	}
 
