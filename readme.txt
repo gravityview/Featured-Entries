@@ -1,7 +1,7 @@
 === GravityView - Featured Entries Extension ===
 Tags: gravityview
 Requires at least: 3.3
-Tested up to: 3.9.1
+Tested up to: 4.1.1
 Stable tag: trunk
 Contributors: katzwebservices, ryanduff
 License: GPL 3 or higher
@@ -17,6 +17,7 @@ Enable Featured Entries in GravityView.
 == Changelog ==
 
 = 1.1 on March 5, 2015 =
+* Added: Ability to filter the GravityView Recent Entries widget - [read how](http://docs.gravityview.co/article/241-show-only-featured-entries-in-the-recent-entries-widget). *(Requires GravityView 1.7)*
 * Fixed: Inaccurate counts on pages without featured entries
 * Modified: Moved `GravityView_Featured_Entries` class to external file
 * Updated: Hungarian translation. Thanks, [@dbalage](https://www.transifex.com/accounts/profile/dbalage/)!
