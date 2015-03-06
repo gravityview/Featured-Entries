@@ -15,7 +15,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_featured_count   = 0;
 
-	protected $_min_gravityview_version = '1.7';
+	protected $_min_gravityview_version = '1.5.2';
 
 	protected $_path = __FILE__;
 
@@ -24,14 +24,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 * Put all plugin hooks here
 	 *
 	 * @since 1.0.0
-	static function getInstance( $passed_post = NULL ) {
-
-	if( empty( self::$instance ) ) {
-	self::$instance = new GravityView_View_Data( $passed_post );
-	}
-
-	return self::$instance;
-	}	 */
+	 */
 	function add_hooks() {
 
 		add_action( 'wp_enqueue_scripts',                   array( $this, 'enqueue_style' )                 );
@@ -51,16 +44,13 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		add_filter( 'gravityview_field_entry_value',        array( $this, 'datatables_featured_class'), 10, 3 );
 
 		// destroy cache when entry is starred or un-starred
-		add_action( 'gform_update_is_starred',				array( $this, 'flush_cache' ), 10, 3 );
+		add_action('gform_update_is_starred',				array( $this, 'flush_cache' ), 10, 3 );
 
 		/** @since 1.1 */
 		add_action( 'gravityview_recent_entries_widget_form', array( $this, 'recent_entries_widget_setting' ), 10, 2 );
 
 		/** @since 1.1 */
 		add_filter( 'gravityview/widget/recent-entries/criteria', array( $this, 'recent_entries_criteria' ), 10, 3 );
-
-		/** @since 1.1 */
-		add_filter( 'gravityview/widget/recent-entries/item', array( $this, 'recent_entries_item_output' ), 10, 3 );
 
 	}
 
@@ -186,66 +176,37 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	public function calculate_view_entries( $filters, $args = array(), $form_id ) {
 
 		// If featured entries is enabled...
-		if ( empty( $args['featured_entries_to_top'] ) ) {
-			return $filters;
+		if ( !empty( $args['featured_entries_to_top'] ) ) {
+
+
+			// Get all featured entries
+			$all_featured_entries = $this->get_featured_entries( $filters, $args, $form_id, true );
+
+			$this->_featured_count = count( $all_featured_entries );
+
+			do_action( 'gravityview_log_debug', '[featured_entries] Found ' . $this->_featured_count . ' Featured Entries', $all_featured_entries );
+
+			// Now get just the featured entries needed for the current page
+			$this->_featured_entries = $this->get_featured_entries( $filters, $args, $form_id );
+
+			do_action( 'gravityview_log_debug', '[featured_entries] Featured entries for current page', $all_featured_entries );
+
+			// Only get entries that aren't starred
+			$filters['search_criteria']['field_filters'][] = array(
+				'key'      => 'is_starred',
+				'value'    => 0,
+				'operator' => '='
+			);
+
+			// Calculate paging based on the number of featured entries returned
+			$paging = $this->calculate_paging( $this->_featured_count, $args );
+
+			if ( ! empty( $paging ) ) {
+				$filters['paging'] = $paging;
+			}
+
+			do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
 		}
-
-		// Get all featured entries
-		$all_featured_entries  = $this->get_featured_entries( $filters, $args, $form_id, true );
-
-		$this->_featured_count = count( $all_featured_entries );
-
-		do_action( 'gravityview_log_debug', '[featured_entries] Found ' . $this->_featured_count . ' Featured Entries', $all_featured_entries );
-
-		// Now get just the featured entries needed for the current page
-		$this->_featured_entries = $this->get_featured_entries( $filters, $args, $form_id );
-
-		do_action( 'gravityview_log_debug', '[featured_entries] Featured entries for current page', $all_featured_entries );
-
-		// Only get entries that aren't starred
-		$filters['search_criteria']['field_filters'][] = array(
-			'key' => 'is_starred',
-			'value' => 0,
-			'operator' => '='
-		);
-
-		// Calculate paging based on the number of featured entries returned
-		$paging = $this->calculate_paging( $this->_featured_count, $args );
-
-		if ( ! empty( $paging ) ) {
-
-			$filters['paging'] = $paging;
-
-		}
-
-		do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
-
-		return $filters;
-
-	}
-
-
-	/**
-	 * @since 1.7
-	 *
-	 * @param $filters
-	 * @param $instance
-	 * @param $form_id
-	 *
-	 * @return mixed
-	 */
-	public function recent_entries_criteria( $filters, $instance, $form_id ) {
-		if( empty( $instance['featured'] ) ) {
-			return $filters;
-		}
-
-
-		// Only get entries thaten't starred
-		$filters['search_criteria']['field_filters'][] = array(
-			'key' => 'is_starred',
-			'value' => 1,
-			'operator' => '='
-		);
 
 		return $filters;
 	}
@@ -416,7 +377,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 *
 	 * @param  string  $class Current class value
 	 * @param  array   $entry Array of entry data
-	 * @param  obj     $view  Current GravityView_View object
+	 * @param  GravityView_View     $view  Current GravityView_View object
 	 *
 	 * @return string         CSS classes to use for the entry markup
 	 */
@@ -446,9 +407,13 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	/**
 	 * Flush the GravityView cache if the entry 'is_starred' property changes
+	 *
+	 * @see GFFormsModel::update_lead_property()
+	 *
 	 * @param  int $entry_id       the entry id
-	 * @param  [type] $property_value [description]
-	 * @param  [type] $previous_value [description]
+	 * @param  mixed $property_value New value of the Gravity Forms meta
+	 * @param  mixed $previous_value Previous value of the Gravity Forms meta
+	 *
 	 * @return void
 	 */
 	function flush_cache( $entry_id, $property_value, $previous_value ) {
@@ -473,24 +438,33 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	}
 
 	/**
-	 * Modify the item output HTML
+	 * Modify the search criteria for the Recent Entries widget to add the Featured Entries search filter
 	 *
-	 * @param string $item_output The HTML output for the item
-	 * @param array $entry Gravity Forms entry array
+	 * @param array $filters
 	 * @param array $instance The settings for the particular instance of the widget.
+	 * @param int $form_id The ID of the form for the search
 	 *
-	 * @return string Modified HTML
+	 * @since 1.1
+	 *
+	 * @return array If the widget has `featured` setting enabled, then modified $filters. Otherwise, original.
 	 */
-	function recent_entries_item_output( $item_output, $entry, $instance ) {
+	public function recent_entries_criteria( $filters, $instance, $form_id ) {
 
-		if( !empty( $entry['is_featured'] ) ) {
-			$item_output = '<strong class="gv-featured-entry">'.$item_output.'</strong>';
+		// This requires GravityView 1.7+
+		$version_check = version_compare( GravityView_Plugin::version, '1.7', '>=' );
+
+		if( $version_check && !empty( $instance['featured'] ) ) {
+
+			// Only get entries that are starred
+			$filters['search_criteria']['field_filters'][] = array(
+				'key'      => 'is_starred',
+				'value'    => 1,
+				'operator' => '='
+			);
 		}
 
-		return $item_output;
-
+		return $filters;
 	}
-
 
 	/**
 	 * Render the setting for the Recent Entries widget
@@ -503,6 +477,12 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 * @return void
 	 */
 	function recent_entries_widget_setting( WP_Widget $widget , $instance = array() ) {
+
+		// This requires GravityView 1.7+
+		if( version_compare( GravityView_Plugin::version, '1.7', '<' ) ) {
+			return;
+		}
+
 		?>
 		<p>
 			<label>
