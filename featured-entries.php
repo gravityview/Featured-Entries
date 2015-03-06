@@ -475,6 +475,8 @@ function gv_extension_featured_entries_load() {
 			if( empty( $instance['featured'] ) ) {
 				return $filters;
 			}
+			// This requires GravityView 1.7+
+			$version_check = version_compare( GravityView_Plugin::version, '1.7', '>=' );
 
 			// Only get entries thaten't starred
 			$filters['search_criteria']['field_filters'][] = array(
@@ -497,6 +499,11 @@ function gv_extension_featured_entries_load() {
 		 * @return void
 		 */
 		function recent_entries_widget_setting( WP_Widget $widget , $instance = array() ) {
+
+			// This requires GravityView 1.7+
+			if( version_compare( GravityView_Plugin::version, '1.7', '<' ) ) {
+				return;
+			}
 
 			?>
 			<p>
