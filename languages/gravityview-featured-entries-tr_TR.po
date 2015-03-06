@@ -1,11 +1,11 @@
-# 
+# Translators:
 # Translators:
 # Süha Karalar <suhakaralar@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
-"POT-Creation-Date: 2014-11-21 11:59-0700\n"
-"PO-Revision-Date: 2014-11-21 19:10+0000\n"
+"POT-Creation-Date: 2015-03-05 23:32-0700\n"
+"PO-Revision-Date: 2015-03-06 06:33+0000\n"
 "Last-Translator: Zachary Katz <zack@katz.co>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/gravityview-featured-entries/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
@@ -13,22 +13,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr_TR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.7beta2\n"
+"X-Generator: Poedit 1.7.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: featured-entries.php:132 featured-entries.php:158
+#: class-gravityview-featured-entries.php:115
+#: class-gravityview-featured-entries.php:141
 msgid "Move Featured Entries to Top"
 msgstr "Öneçıkan Kayıtları yukarı taşı"
 
-#: featured-entries.php:159
+#: class-gravityview-featured-entries.php:142
 msgid ""
 "Always move Featured (starred) entries to the top of search results. If not "
 "enabled, Featured entries will be shown in the default order, but will be "
 "highlighted."
 msgstr "Öneçıkan(yıldızlı) kayıtları her zaman arama sonuçlarında en üste taşı. Eğer etkinleştirmezseniz Önceçıkan kayıtlar varsayılan sıralama düzeninde gösterilecek fakat vurgulanacaktır."
+
+#: class-gravityview-featured-entries.php:486
+msgid "Only show featured entries:"
+msgstr ""
 
 #: lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
@@ -51,14 +56,14 @@ msgstr "Eklenti güncellemelerini yükleme yetkiniz yok"
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
-#: lib/class-gravityview-extension.php:159
+#: lib/class-gravityview-extension.php:182
 #, php-format
 msgid "Could not activate the %s Extension; GravityView is not active."
 msgstr "%s eklentisi etkinleştirilemiyor; GravityView etkin değil."
 
-#: lib/class-gravityview-extension.php:169
+#: lib/class-gravityview-extension.php:192
 #, php-format
 msgid "The %s Extension requires GravityView Version %s or newer."
 msgstr "%s eklentisi en az GravityView %s sürümü yada daha yenisini gerektirmektedir."
