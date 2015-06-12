@@ -1,12 +1,12 @@
 # Translators:
 # Translators:
-# Erik van Beek <erik@aiwos.nl>, 2014
+# Erik van Beek <erik@aiwos.nl>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2015-03-05 23:32-0700\n"
-"PO-Revision-Date: 2015-03-06 06:33+0000\n"
-"Last-Translator: Zachary Katz <zack@katz.co>\n"
+"PO-Revision-Date: 2015-05-26 15:51+0000\n"
+"Last-Translator: Erik van Beek <erik@aiwos.nl>\n"
 "Language-Team: Dutch (Netherlands) (http://www.transifex.com/projects/p/gravityview-featured-entries/language/nl_NL/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Plaats Aanbevolen (met ster) Inzendingen altijd bovenaan in de zoekresul
 
 #: class-gravityview-featured-entries.php:486
 msgid "Only show featured entries:"
-msgstr ""
+msgstr "Toon alleen uitgelichte inzendingen. "
 
 #: lib/EDD_SL_Plugin_Updater.php:154
 #, php-format

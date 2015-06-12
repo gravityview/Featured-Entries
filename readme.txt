@@ -18,6 +18,10 @@ Enable Featured Entries in GravityView.
 
 = 1.1.1 on June 12 =
 * Fixed: Issue with the DataTables extension when "Move Featured Entries to Top" is enabled
+* Updated Translations:
+    - Bengali translation by [@tareqhi](https://www.transifex.com/accounts/profile/tareqhi/)
+    - Dutch translation by [@erikvanbeek](https://www.transifex.com/accounts/profile/erikvanbeek/)
+    - Turkish translation by [@suhakaralar](https://www.transifex.com/accounts/profile/suhakaralar/)
 
 = 1.1 on March 5, 2015 =
 * Added: Ability to filter the GravityView Recent Entries widget - [read how](http://docs.gravityview.co/article/241-show-only-featured-entries-in-the-recent-entries-widget). *(Requires GravityView 1.7)*

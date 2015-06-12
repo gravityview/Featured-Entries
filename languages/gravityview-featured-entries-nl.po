@@ -1,11 +1,12 @@
 # Translators:
 # Translators:
+# Erik van Beek <erik@aiwos.nl>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2015-03-05 23:32-0700\n"
-"PO-Revision-Date: 2015-03-06 06:33+0000\n"
-"Last-Translator: Zachary Katz <zack@katz.co>\n"
+"PO-Revision-Date: 2015-05-26 15:51+0000\n"
+"Last-Translator: Erik van Beek <erik@aiwos.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/gravityview-featured-entries/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,25 +22,25 @@ msgstr ""
 #: class-gravityview-featured-entries.php:115
 #: class-gravityview-featured-entries.php:141
 msgid "Move Featured Entries to Top"
-msgstr ""
+msgstr "Zet Uitgelichte Inzendingen bovenin"
 
 #: class-gravityview-featured-entries.php:142
 msgid ""
 "Always move Featured (starred) entries to the top of search results. If not "
 "enabled, Featured entries will be shown in the default order, but will be "
 "highlighted."
-msgstr ""
+msgstr "Zet Uitgelichte Inzendingen (met een ster) altijd bovenin bij zoek resultaten. Als dit niet is geactiveerd, worden Uitgelichte Inzendingen getoond in de normale volgorde, maar wel uitgelicht. "
 
 #: class-gravityview-featured-entries.php:486
 msgid "Only show featured entries:"
-msgstr ""
+msgstr "Laat alleen Uitgelichte Inzendingen zien:"
 
 #: lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
 msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
-msgstr ""
+msgstr "Er is een nieuwe versie van %1$s beschikbaar. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Bekijk details van %3$s</a>."
 
 #: lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
@@ -47,22 +48,22 @@ msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a "
 "href=\"%4$s\">update now</a>."
-msgstr ""
+msgstr "Er is een nieuwe versie van %1$s beschikbaar. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Bekijk de details van %3$s</a> of <a href=\"%4$s\">update nu</a>."
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "You do not have permission to install plugin updates"
-msgstr ""
+msgstr "Je hebt geen toestemming om plugin updates te installeren. "
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: lib/class-gravityview-extension.php:182
 #, php-format
 msgid "Could not activate the %s Extension; GravityView is not active."
-msgstr ""
+msgstr "Kon %s Extensie niet activeren; GravityView is niet actief. "
 
 #: lib/class-gravityview-extension.php:192
 #, php-format
 msgid "The %s Extension requires GravityView Version %s or newer."
-msgstr ""
+msgstr "De %s Extensie heeft GravityView versie %s nodig of nieuwer. "

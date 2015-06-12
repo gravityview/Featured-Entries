@@ -1,12 +1,12 @@
 # Translators:
 # Translators:
-# Süha Karalar <suhakaralar@gmail.com>, 2014
+# Süha Karalar <suhakaralar@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2015-03-05 23:32-0700\n"
-"PO-Revision-Date: 2015-03-06 06:33+0000\n"
-"Last-Translator: Zachary Katz <zack@katz.co>\n"
+"PO-Revision-Date: 2015-05-26 15:51+0000\n"
+"Last-Translator: Süha Karalar <suhakaralar@gmail.com>\n"
 "Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/gravityview-featured-entries/language/tr_TR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +29,11 @@ msgid ""
 "Always move Featured (starred) entries to the top of search results. If not "
 "enabled, Featured entries will be shown in the default order, but will be "
 "highlighted."
-msgstr "Öneçıkan(yıldızlı) kayıtları her zaman arama sonuçlarında en üste taşı. Eğer etkinleştirmezseniz Önceçıkan kayıtlar varsayılan sıralama düzeninde gösterilecek fakat vurgulanacaktır."
+msgstr "Öneçıkan (yıldızlı) kayıtları her zaman arama sonuçlarında en üste taşı. Eğer etkinleştirmezseniz Önceçıkan kayıtlar varsayılan sıralama düzeninde gösterilecek fakat vurgulanacaktır."
 
 #: class-gravityview-featured-entries.php:486
 msgid "Only show featured entries:"
-msgstr ""
+msgstr "Sedace öne çıkan kayıtları göster:"
 
 #: lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
