@@ -276,6 +276,15 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	}
 
+	/**
+	 * Get the # of entries per page
+	 *
+	 * @since 1.1.1
+	 *
+	 * @param array $args
+	 *
+	 * @return mixed
+	 */
 	private function get_page_size( $args ) {
 
 		$page_size = !empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
@@ -288,7 +297,9 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	}
 
 	/**
-	 * @since 1.1
+	 * Get the # of entries per page
+	 *
+	 * @since 1.1.1
 	 *
 	 * @return int
 	 */
