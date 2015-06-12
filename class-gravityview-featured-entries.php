@@ -253,7 +253,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 		} else {
 
-			$page_size = !empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
+			$page_size = $this->get_page_size( $args );
 
 			if ( isset( $args['offset'] ) ) {
 
@@ -261,7 +261,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 			} else {
 
-				$current_page = empty( $_GET['pagenum'] ) ? 1 : intval( $_GET['pagenum'] );
+				$current_page = $this->get_page_num();
 				$offset       = ( $current_page - 1 ) * $page_size;
 
 			}
@@ -276,6 +276,34 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	}
 
+	private function get_page_size( $args ) {
+
+		$page_size = !empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
+
+		if( !empty( $_POST['draw'] ) ) {
+			$page_size = $_POST['length'];
+		}
+
+		return $page_size;
+	}
+
+	/**
+	 * @since 1.1
+	 *
+	 * @return int
+	 */
+	private function get_page_num() {
+
+		// Not DataTables
+		if( empty( $_POST['draw'] ) ) {
+			$page_num = empty( $_GET['pagenum'] ) ? 1 : intval( $_GET['pagenum'] );
+		} else {
+			// Start of page count divided by items per page, plus one
+			$page_num = floor( $_POST['start'] / $_POST['length'] ) + 1;
+		}
+
+		return $page_num;
+	}
 
 	/**
 	 * Calculate custom paging based on current location and number of featured entries
@@ -292,14 +320,14 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		$paging = array();
 
 		// Get page size
-		$page_size = ! empty( $args['page_size'] ) ? $args['page_size'] : apply_filters( 'gravityview_default_page_size', 25 );
+		$page_size = $this->get_page_size( $args );
 
 		// Calculate some key featured numbers
 		$full_pages_of_featured = absint( $featured_count / $page_size );
 		$remaining_featured     = $featured_count - ( $page_size * $full_pages_of_featured );
 
 		// Get the current page and set default offset
-		$current_page = empty( $_GET['pagenum'] ) ? 1 : intval( $_GET['pagenum'] );
+		$current_page = $this->get_page_num();
 
 		// Calculate page and offset
 		if ( ( ( $current_page === $full_pages_of_featured ) && ( 0 === $remaining_featured ) ) || ( $current_page <= $full_pages_of_featured ) ) {
@@ -316,7 +344,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 			$actual_page = $current_page - $full_pages_of_featured;
 
-			if ( 1 === $actual_page ) {
+			if ( 1 === intval( $actual_page ) ) {
 
 				$page_size = $page_size - $remaining_featured;
 
