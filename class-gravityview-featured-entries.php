@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '1.1';
+	protected $_version          = '1.1.2';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -422,18 +422,15 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		/**
 		 * Enable or disable featured entries for this entry
 		 *
+		 * Default: If the entry is starred, add the featured-entry class
+		 *
 		 * @param GravityView_View $view The current GravityView_View instance
 		 * @param array $entry Gravity Forms entry array
 		 * @return boolean Whether to enable featured entries for this entry
 		 */
-		if ( apply_filters( 'gravityview_featured_entries_enable', true, $view, $entry ) ) {
+		if ( apply_filters( 'gravityview_featured_entries_enable', ! empty( $entry['is_starred'] ), $view, $entry ) ) {
 
-			// If the entry is starred, add the featured-entry class
-			if ( $entry['is_starred'] ) {
-
-				$class .= ' gv-featured-entry';
-
-			}
+			$class .= ' gv-featured-entry';
 
 		}
 
