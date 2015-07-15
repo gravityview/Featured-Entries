@@ -16,6 +16,9 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.1.2 on July 14 =
+* Fixed: `gravityview_featured_entries_enable` didn't behave [as expected](http://docs.gravityview.co/article/239-how-to-feature-an-entry-using-php)
+
 = 1.1.1 on June 12 =
 * Fixed: Issue with the DataTables extension when "Move Featured Entries to Top" is enabled
 * Updated Translations:
