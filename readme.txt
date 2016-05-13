@@ -16,6 +16,8 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.1.3 on May 13, 2016 =
+* Fixed: Don't try to enqueue a DataTables support script unless using a DataTables View
 = 1.1.2 on July 14 =
 * Fixed: `gravityview_featured_entries_enable` didn't behave [as expected](http://docs.gravityview.co/article/239-how-to-feature-an-entry-using-php)
 
