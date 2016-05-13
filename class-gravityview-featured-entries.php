@@ -7,9 +7,15 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '1.1.2';
+	protected $_version          = '1.1.3';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
+
+	/**
+	 * @var int The download ID on gravityview.co
+	 * @since 1.1.3
+	 */
+	protected $_item_id = 31;
 
 	protected $_featured_entries = array();
 
@@ -80,9 +86,9 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 */
 	public function enqueue_style() {
 
-		wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'assets/css/featured-entries.css', array(), $this->_version );
+		wp_enqueue_style( 'gravityview-featured-entries', plugin_dir_url( __FILE__ ) . 'assets/css/featured-entries.css', array(), $this->_version );
 
-		wp_enqueue_script( 'gravityview-featured-entries', plugin_dir_url(__FILE__) . 'assets/js/featured-entries.min.js', array('gv-datatables'), $this->_version );
+		wp_register_script( 'gravityview-featured-entries', plugin_dir_url( __FILE__ ) . 'assets/js/featured-entries.min.js', array('gv-datatables'), $this->_version );
 
 	}
 
@@ -96,6 +102,8 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	public function enqueue_datatables_style() {
 
 		wp_enqueue_style( 'gv-datatables-featured-entries');
+
+		wp_enqueue_script( 'gravityview-featured-entries' );
 
 	}
 
