@@ -11,6 +11,12 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
+	/**
+	 * @var int The download ID on gravityview.co
+	 * @since 1.1.3
+	 */
+	protected $_item_id = 31;
+
 	protected $_featured_entries = array();
 
 	protected $_featured_count   = 0;
