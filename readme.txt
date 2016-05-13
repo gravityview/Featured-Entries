@@ -1,7 +1,7 @@
 === GravityView - Featured Entries Extension ===
 Tags: gravityview
 Requires at least: 3.3
-Tested up to: 4.2.2
+Tested up to: 4.5.2
 Stable tag: trunk
 Contributors: katzwebservices, ryanduff
 License: GPL 3 or higher
