@@ -208,7 +208,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 			// Calculate paging based on the number of featured entries returned
 			$paging = $this->calculate_paging( $this->_featured_count, $args );
 
-			if ( ! empty( $paging ) ) {
+			if ( ! empty( array_filter( $paging, 'intval' ) ) ) {
 				$filters['paging'] = $paging;
 			}
 
