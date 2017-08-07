@@ -16,6 +16,7 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+* Updated: German translation (thanks Hubert!)
 = 1.1.3 on May 13, 2016 =
 * Fixed: Don't try to enqueue a DataTables support script unless using a DataTables View
 * Added: Chinese translation (Thanks, Edi Weigh!)
