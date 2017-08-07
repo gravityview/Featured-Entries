@@ -42,8 +42,8 @@ module.exports = function(grunt) {
 			your_target: {
 				files: {
 					'readme.md': 'readme.txt'
-				},
-			},
+				}
+			}
 		},
 
 		dirs: {

@@ -1,7 +1,7 @@
 === GravityView - Featured Entries Extension ===
 Tags: gravityview
 Requires at least: 3.3
-Tested up to: 4.5.2
+Tested up to: 4.8
 Stable tag: trunk
 Contributors: katzwebservices, ryanduff
 License: GPL 3 or higher
@@ -16,7 +16,11 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
+= 1.1.4 on August 7, 2017 =
+
+* Fixed: Conflict with GravityView 1.21.5.3
 * Updated: German translation (thanks Hubert!)
+
 = 1.1.3 on May 13, 2016 =
 * Fixed: Don't try to enqueue a DataTables support script unless using a DataTables View
 * Added: Chinese translation (Thanks, Edi Weigh!)
