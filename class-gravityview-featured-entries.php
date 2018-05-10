@@ -400,7 +400,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		if ( ! empty ( $this->_featured_count ) ) {
 
 			// prepend featured entries to the regular entries result
-			$view['entries'] = array_merge( $this->_featured_entries, $view['entries'] );
+			$view['entries'] = array_merge( $this->_featured_entries, $view['entries']->all() );
 
 			/**
 			 * Adjust count
