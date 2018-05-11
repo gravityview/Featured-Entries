@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '1.1.4';
+	protected $_version          = '2.0';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -21,7 +21,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_featured_count   = 0;
 
-	protected $_min_gravityview_version = '1.5.2';
+	protected $_min_gravityview_version = '2.0-dev';
 
 	protected $_path = __FILE__;
 
@@ -400,7 +400,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		if ( ! empty ( $this->_featured_count ) ) {
 
 			// prepend featured entries to the regular entries result
-			$view['entries'] = array_merge( $this->_featured_entries, $view['entries'] );
+			$view['entries'] = array_merge( $this->_featured_entries, $view['entries']->all() );
 
 			/**
 			 * Adjust count
