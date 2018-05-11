@@ -21,7 +21,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_featured_count   = 0;
 
-	protected $_min_gravityview_version = '1.5.2';
+	protected $_min_gravityview_version = '2.0-dev';
 
 	protected $_path = __FILE__;
 
