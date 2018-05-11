@@ -16,7 +16,7 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
-= 2.0 on May 11, 2018 =
+= 2.0.1 on May 11, 2018 =
 
 * Added support for GravityView 2.0
 * Now requires GravityView 2.0

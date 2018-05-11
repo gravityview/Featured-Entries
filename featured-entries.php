@@ -3,7 +3,7 @@
 Plugin Name: GravityView - Featured Entries Extension
 Plugin URI: https://gravityview.co/extensions/featured-entries/
 Description: Promote entries as Featured in Views
-Version: 2.0
+Version: 2.0.1
 Author: GravityView
 Author URI: https://gravityview.co
 Text Domain: gravityview-featured-entries

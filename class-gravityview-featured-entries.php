@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0';
+	protected $_version          = '2.0.1';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -389,28 +389,27 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 *
 	 * @since  1.0.2
 	 *
-	 * @param  array  $view Associative array containing count, entries & paging
+	 * @param  \GV\Entry_Collection  $entries Associative array containing count, entries & paging
 	 * @param  array  $args    Args array for current view
 	 *
-	 * @return array           A combined array of entries
+	 * @return \GV\Entry_Collection A combined array of entries
 	 */
-	public function sort_view_entries( $view, $args ) {
+	public function sort_view_entries( $entries, $args ) {
 
-
-		if ( ! empty ( $this->_featured_count ) ) {
-
-			// prepend featured entries to the regular entries result
-			$view['entries'] = array_merge( $this->_featured_entries, $view['entries']->all() );
-
-			/**
-			 * Adjust count
-			 * @since 1.0.6
-			 */
-			$view['count'] += $this->_featured_count;
-
+		if ( empty ( $this->_featured_count ) ) {
+			return $entries;
 		}
 
-		return $view;
+		$featured_entries_collection = new \GV\Entry_Collection();
+
+		foreach ( $this->_featured_entries as $featured_entry ) {
+			$featured_entries_collection->add(  \GV\GF_Entry::from_entry( $featured_entry ) );
+		}
+
+		// prepend featured entries to the regular entries result
+		$featured_entries_collection->merge( $entries );
+
+		return $featured_entries_collection;
 	}
 
 
@@ -525,14 +524,14 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		}
 
 		?>
-		<p>
-			<label>
-				<span><?php _e( 'Only show featured entries:', 'gravityview-featured-entries' ); ?>&nbsp;</span>
-				<input name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="hidden" value="0" />
-				<input <?php checked( true, !empty( $instance['featured'] ) ); ?> id="<?php echo $widget->get_field_id( 'featured' ); ?>" name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="checkbox" class="checkbox" value="1" />
-			</label>
-		</p>
-	<?php
+        <p>
+            <label>
+                <span><?php _e( 'Only show featured entries:', 'gravityview-featured-entries' ); ?>&nbsp;</span>
+                <input name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="hidden" value="0" />
+                <input <?php checked( true, !empty( $instance['featured'] ) ); ?> id="<?php echo $widget->get_field_id( 'featured' ); ?>" name="<?php echo $widget->get_field_name( 'featured' ); ?>" type="checkbox" class="checkbox" value="1" />
+            </label>
+        </p>
+		<?php
 	}
 
 }
