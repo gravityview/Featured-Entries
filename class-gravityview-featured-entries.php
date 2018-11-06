@@ -213,6 +213,9 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 			}
 
 			do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
+		} else {
+			$this->_featured_count = 0;
+			$this->_featured_entries = 0;
 		}
 
 		return $filters;
