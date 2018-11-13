@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0.1';
+	protected $_version          = '2.0.2';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -213,6 +213,9 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 			}
 
 			do_action( 'gravityview_log_debug', '[featured_entries] Final sort filter for non-featured entries: ', $filters );
+		} else {
+			$this->_featured_count = 0;
+			$this->_featured_entries = 0;
 		}
 
 		return $filters;
