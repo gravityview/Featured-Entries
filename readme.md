@@ -16,6 +16,10 @@ Enable Featured Entries in GravityView.
 
 ## Changelog ##
 
+### 2.0.3 on November 30, 2018 ###
+
+* Fixed: Single entry shows "You are not allowed to view this content" notice when the "Move featured entries to top" setting is checked
+
 ### 2.0.2 on November 13, 2018 ###
 
 * Fixed: Missing entries when "Move Featured Entries to Top" is used in multiple Views embedded on the same page

@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0.2';
+	protected $_version          = '2.0.3';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -181,6 +181,11 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 	 * @return array           Array of filters
 	 */
 	public function calculate_view_entries( $filters, $args = array(), $form_id ) {
+
+	    // When accessing a single entry or edit entry, don't modify query
+		if ( gravityview()->request->is_entry() || gravityview()->request->is_edit_entry( $form_id ) ) {
+			return $filters;
+		}
 
 		// If featured entries is enabled...
 		if ( !empty( $args['featured_entries_to_top'] ) ) {
