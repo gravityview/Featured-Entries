@@ -15,6 +15,59 @@ class GV_Advanced_Filter_Tests extends GV_UnitTestCase {
 		wp_set_current_user( 0 );
 	}
 
+	private function get_entries( $form_id ) {
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'One',
+		) );
+		$one = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Two',
+		) );
+		$two = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Three',
+		) );
+		$three = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Four',
+		) );
+		$four = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Five',
+		) );
+		$five = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Six',
+		) );
+		$six = \GV\GF_Entry::by_id( $entry['id'] );
+
+		$entry = $this->factory->entry->create_and_get( array(
+			'form_id' => $form_id,
+			'status' => 'active',
+			'1' => 'Seven',
+		) );
+		$seven = \GV\GF_Entry::by_id( $entry['id'] );
+
+		return compact( 'one', 'two', 'three', 'four', 'five', 'six', 'seven' );
+	}
+
 	public function test_top_simple() {
 		$this->_reset_context();
 
@@ -36,54 +89,7 @@ class GV_Advanced_Filter_Tests extends GV_UnitTestCase {
 		) );
 		$view = \GV\View::from_post( $post );
 
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'One',
-		) );
-		$one = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Two',
-		) );
-		$two = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Three',
-		) );
-		$three = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Four',
-		) );
-		$four = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Five',
-		) );
-		$five = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Six',
-		) );
-		$six = \GV\GF_Entry::by_id( $entry['id'] );
-
-		$entry = $this->factory->entry->create_and_get( array(
-			'form_id' => $form['id'],
-			'status' => 'active',
-			'1' => 'Seven',
-		) );
-		$seven = \GV\GF_Entry::by_id( $entry['id'] );
+		$entries = $this->get_entries( $form['id'] );
 
 		gravityview()->request->returns['is_view'] = $view;
 		$renderer = new \GV\View_Renderer();
@@ -92,14 +98,14 @@ class GV_Advanced_Filter_Tests extends GV_UnitTestCase {
 		
 		$this->assertNotContains( 'class="featured"', $renderer->render( $view ) );
 
-		\GFAPI::update_entry_property( $three->ID, 'is_starred', true );
+		\GFAPI::update_entry_property( $entries['three']->ID, 'is_starred', true );
 
 		$this->assertContains( 'Three<span class="featured"></span>', $renderer->render( $view ) );
 
 		$view->settings->update( array( 'featured_entries_to_top' => true ) );
 
-		$entries = wp_list_pluck( $view->get_entries()->all(), 'ID' );
-		$this->assertEquals( $three->ID, reset( $entries ) );
+		$entry_ids = wp_list_pluck( $view->get_entries()->all(), 'ID' );
+		$this->assertEquals( $entries['three']->ID, reset( $entry_ids ) );
 
 		$this->_reset_context();
 	}
