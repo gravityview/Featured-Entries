@@ -114,6 +114,51 @@ class GV_Advanced_Filter_Tests extends GV_UnitTestCase {
 	}
 
 	public function test_top_pagination_regular_mode() {
+		$this->_reset_context();
+
+		$form = $this->factory->form->import_and_get( 'simple.json' );
+
+		global $post;
+
+		$post = $this->factory->view->create_and_get( array(
+			'form_id' => $form['id'],
+			'template_id' => 'table',
+			'fields' => array(
+				'directory_table-columns' => array(
+					wp_generate_password( 4, false ) => array(
+						'id' => '1',
+						'label' => 'Entry number',
+					),
+				),
+			),
+			'settings' => array(
+				'page_size' => 3,
+				'featured_entries_to_top' => true,
+			),
+		) );
+		$view = \GV\View::from_post( $post );
+
+		$entries = $this->get_entries( $form['id'] );
+
+		gravityview()->request->returns['is_view'] = $view;
+		$renderer = new \GV\View_Renderer();
+
+		\GFAPI::update_entry_property( $entries['three']->ID, 'is_starred', true );
+
+		$this->assertCount( 3, $entry_ids = wp_list_pluck( $view->get_entries()->all(), 'ID' ) );
+		$this->assertEquals( $entries['three']->ID, $entry_ids[0] );
+
+		$_GET['pagenum'] = 2;
+
+		$this->assertCount( 3, $entry_ids = wp_list_pluck( $view->get_entries()->all(), 'ID' ) );
+		$this->assertEquals( $entries['five']->ID, $entry_ids[0] );
+
+		$_GET['pagenum'] = 3;
+
+		$this->assertCount( 1, $entry_ids = wp_list_pluck( $view->get_entries()->all(), 'ID' ) );
+		$this->assertEquals( $entries['one']->ID, $entry_ids[0] );
+
+		$this->_reset_context();
 	}
 
 	public function test_top_search() {
