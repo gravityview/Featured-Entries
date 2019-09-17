@@ -86,4 +86,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask( 'default', ['uglify','exec:transifex','potomo','wp_readme_to_markdown','watch'] );
 
+	// Translation stuff
+	grunt.registerTask( 'translate', [ 'exec:transifex', 'potomo' ] );
 };
