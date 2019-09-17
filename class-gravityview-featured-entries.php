@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0.3';
+	protected $_version          = '2.0.4';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -187,6 +187,11 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 			return $filters;
 		}
 
+		if ( defined( '\GV\Plugin::FEATURE_GFQUERY' ) && gravityview()->plugin->supports( \GV\Plugin::FEATURE_GFQUERY ) ) {
+			add_action( 'gravityview/view/query', array( $this, 'gf_query_filter' ), 10, 3 );
+			return $filters;
+		}
+
 		// If featured entries is enabled...
 		if ( !empty( $args['featured_entries_to_top'] ) ) {
 
@@ -224,6 +229,34 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		}
 
 		return $filters;
+	}
+
+	public function gf_query_filter( &$query, $view, $request ) {
+		if ( ! $view->settings->get( 'featured_entries_to_top' ) ) {
+			return;
+		}
+
+		$q = $query->_introspect();
+
+		$_query = new GF_Query();
+		$_query->from( $q['from'] );
+		
+		foreach ( $q['joins'] as $join ) {
+			$_query->join( $join );
+		}
+
+		$_query->where( $q['where'] );
+		$_query->offset( $q['offset'] );
+		$_query->limit( $q['limit'] );
+
+		// Prepend is_starred order
+		$_query->order( new GF_Query_Column( 'is_starred', $view->form->ID ), GF_Query::DESC );
+
+		foreach ( $q['order'] as $order ) {
+			$_query->order( $order[0], $order[1] );
+		}
+
+		$query = $_query;
 	}
 
 	/**
