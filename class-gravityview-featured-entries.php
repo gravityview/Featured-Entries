@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0.3';
+	protected $_version          = '2.0.4';
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
