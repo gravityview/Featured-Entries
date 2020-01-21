@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2015-03-05 23:32-0700\n"
-"PO-Revision-Date: 2017-08-03 18:14+0000\n"
+"PO-Revision-Date: 2019-01-12 20:19+0000\n"
 "Last-Translator: Zachary Katz <zack@katz.co>\n"
 "Language-Team: Italian (http://www.transifex.com/katzwebservices/gravityview-featured-entries/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
-msgstr ""
+msgstr "È disponibile una nuova versione di %1$s. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Visualizza i dettagli della versione %3$s</a>."
 
 #: lib/EDD_SL_Plugin_Updater.php:161
 #, php-format
@@ -47,22 +47,22 @@ msgid ""
 "There is a new version of %1$s available. <a target=\"_blank\" "
 "class=\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a "
 "href=\"%4$s\">update now</a>."
-msgstr ""
+msgstr "È disponibile una nuova versione di %1$s. <a target=\"_blank\" class=\"thickbox\" href=\"%2$s\">Visualizza i dettagli della versione %3$s</a> o <a href=\"%4$s\">aggiornamento ora</a>."
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "You do not have permission to install plugin updates"
-msgstr ""
+msgstr "Non hai il permesso di installare gli aggiornamenti dei plugin"
 
 #: lib/EDD_SL_Plugin_Updater.php:301
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: lib/class-gravityview-extension.php:182
 #, php-format
 msgid "Could not activate the %s Extension; GravityView is not active."
-msgstr ""
+msgstr "Impossibile attivare l'estensione %s; GravityView non è attivo."
 
 #: lib/class-gravityview-extension.php:192
 #, php-format
 msgid "The %s Extension requires GravityView Version %s or newer."
-msgstr ""
+msgstr "L'estensione %s richiede GravityView versione %s o successiva."

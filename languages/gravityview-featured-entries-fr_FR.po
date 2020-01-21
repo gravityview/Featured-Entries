@@ -1,11 +1,12 @@
 # Translators:
 # Translators:
+# a270031086f2a0d3514bc0cb507b48f6, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView Featured Entries\n"
 "POT-Creation-Date: 2015-03-05 23:32-0700\n"
-"PO-Revision-Date: 2017-09-20 10:55+0000\n"
-"Last-Translator: Zachary Katz <zack@katz.co>\n"
+"PO-Revision-Date: 2019-05-28 15:49+0000\n"
+"Last-Translator: a270031086f2a0d3514bc0cb507b48f6\n"
 "Language-Team: French (France) (http://www.transifex.com/katzwebservices/gravityview-featured-entries/language/fr_FR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,18 +22,18 @@ msgstr ""
 #: class-gravityview-featured-entries.php:115
 #: class-gravityview-featured-entries.php:141
 msgid "Move Featured Entries to Top"
-msgstr ""
+msgstr "Déplacer les entrées en vedette vers le haut"
 
 #: class-gravityview-featured-entries.php:142
 msgid ""
 "Always move Featured (starred) entries to the top of search results. If not "
 "enabled, Featured entries will be shown in the default order, but will be "
 "highlighted."
-msgstr ""
+msgstr "Toujours déplacer les entrées sélectionnées (favoris) en haut des résultats de recherche. Si cette option n'est pas activée, les entrées en vedette seront affichées dans l'ordre par défaut, mais seront mises en surbrillance."
 
 #: class-gravityview-featured-entries.php:486
 msgid "Only show featured entries:"
-msgstr ""
+msgstr "Afficher uniquement les entrées en vedette:"
 
 #: lib/EDD_SL_Plugin_Updater.php:154
 #, php-format
