@@ -21,7 +21,7 @@ Enable Featured Entries in GravityView.
 * Fixed: Another issue with search, paging when "Move Featured Entries to Top" setting is enabled
 * Updated: French translation
 
-= 2.0.4 on January 21, 2020 =
+= 2.0.4 on September 17, 2019 =
 
 * Fixed: More Issues with search, paging when "Move Featured Entries to Top" setting is enabled
 
