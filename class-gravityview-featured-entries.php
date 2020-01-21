@@ -7,7 +7,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 	protected $_title            = 'Featured Entries';
 
-	protected $_version          = '2.0.4';
+	protected $_version          = GV_FEATURED_ENTRIES_VERSION;
 
 	protected $_text_domain      = 'gravityview-featured-entries';
 
@@ -240,7 +240,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 
 		$_query = new GF_Query();
 		$_query->from( $q['from'] );
-		
+
 		foreach ( $q['joins'] as $join ) {
 			$_query->join( $join[0], $join[1] );
 		}

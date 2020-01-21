@@ -10,6 +10,9 @@ Text Domain: gravityview-featured-entries
 Domain Path: /languages/
 */
 
+/** @since 2.0.4 */
+define( 'GV_FEATURED_ENTRIES_VERSION', '2.0.4' );
+
 add_action( 'plugins_loaded', 'gv_extension_featured_entries_load' );
 
 /**
