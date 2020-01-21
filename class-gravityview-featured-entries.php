@@ -242,7 +242,7 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		$_query->from( $q['from'] );
 		
 		foreach ( $q['joins'] as $join ) {
-			$_query->join( $join );
+			$_query->join( $join[0], $join[1] );
 		}
 
 		$_query->where( $q['where'] );
