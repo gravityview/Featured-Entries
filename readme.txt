@@ -1,9 +1,9 @@
 === GravityView - Featured Entries Extension ===
 Tags: gravityview
 Requires at least: 3.3
-Tested up to: 5.2.2
+Tested up to: 5.3.2
 Stable tag: trunk
-Contributors: katzwebservices, ryanduff
+Contributors: The GravityView Team
 License: GPL 3 or higher
 
 Enable Featured Entries in GravityView.
@@ -16,9 +16,10 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
-= 2.0.4 on September 17, 2019 =
+= 2.0.4 on January 21, 2020 =
 
 * Fixed: Issues with search, paging when "Move Featured Entries to Top" setting is enabled
+* Updated: French translation
 
 = 2.0.3 on November 30, 2018 =
 
