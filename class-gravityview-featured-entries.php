@@ -245,6 +245,10 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 			$_query->join( $join[0], $join[1] );
 		}
 
+		if ( method_exists( '\GV\Utils', 'gf_query_strip_condition_column_aliases' ) ) {
+			$q['where'] = \GV\Utils::gf_query_strip_condition_column_aliases( $q['where'] );
+		}
+
 		$_query->where( $q['where'] );
 		$_query->offset( $q['offset'] );
 		$_query->limit( $q['limit'] );
