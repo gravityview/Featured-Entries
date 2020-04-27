@@ -1,7 +1,7 @@
 === GravityView - Featured Entries Extension ===
 Tags: gravityview
 Requires at least: 3.3
-Tested up to: 5.3.2
+Tested up to: 5.4
 Stable tag: trunk
 Contributors: The GravityView Team
 License: GPL 3 or higher
@@ -15,6 +15,10 @@ Enable Featured Entries in GravityView.
 3. To feature an entry, "Star" it in Gravity Forms' Entries view
 
 == Changelog ==
+
+= 2.0.6 on April 27, 2020 =
+
+* Fixed: "Move Featured Entries to the Top" conflicting with search functionality (requires GravityView 2.8.1)
 
 = 2.0.5 on January 21, 2020 =
 
