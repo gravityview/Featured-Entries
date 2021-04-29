@@ -1,14 +1,16 @@
 <?php
-/*
-Plugin Name: GravityView - Featured Entries Extension
-Plugin URI: https://gravityview.co/extensions/featured-entries/
-Description: Promote entries as Featured in Views
-Version: 2.0.7
-Author: GravityView
-Author URI: https://gravityview.co
-Text Domain: gravityview-featured-entries
-Domain Path: /languages/
-*/
+/**
+ * Plugin Name:       	GravityView - Featured Entries Extension
+ * Plugin URI:        	https://gravityview.co/extensions/featured-entries
+ * Description:       	Promote entries as featured in Views
+ * Version:          	2.0.7
+ * Author:            	GravityView
+ * Author URI:        	https://gravityview.co
+ * Text Domain:       	gravityview-featured-entries
+ * License:           	GPLv2 or later
+ * License URI: 		http://www.gnu.org/licenses/gpl-2.0.html
+ * Domain Path:			/languages
+ */
 
 /** @since 2.0.4 */
 define( 'GV_FEATURED_ENTRIES_VERSION', '2.0.7' );

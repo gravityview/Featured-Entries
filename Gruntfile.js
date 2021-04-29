@@ -53,6 +53,7 @@ module.exports = function(grunt) {
 						var translation,
 							excluded_meta = [
 								'GravityView - Featured Entries Extension',
+								'https://gravityview.co/extensions/featured-entries',
 								'Promote entries as Featured in Views',
 								'https://gravityview.co',
 								'GravityView',
