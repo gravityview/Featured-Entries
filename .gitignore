@@ -1,6 +1,4 @@
 *.scssc
 *.sublime-project
 *.sublime-workspace
-composer.lock
-vendor/
 node_modules/*
