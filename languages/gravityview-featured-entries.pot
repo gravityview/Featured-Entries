@@ -1,5 +1,5 @@
 # Copyright (C) 2021 GravityView
-# This file is distributed under the same license as the GravityView - Featured Entries Extension package.
+# This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
 "Project-Id-Version: GravityView - Featured Entries Extension 2.0.7\n"
@@ -75,6 +75,6 @@ msgid ""
 "upgrade your server's PHP."
 msgstr ""
 
-#. Plugin URI of the plugin/theme
-msgid "https://gravityview.co/extensions/featured-entries/"
+#. Description of the plugin/theme
+msgid "Promote entries as featured in Views"
 msgstr ""
