@@ -1,7 +1,6 @@
 .bowerrc export-ignore
 .gitattributes export-ignore
 .gitignore export-ignore
-composer.json export-ignore
 Gruntfile.js export-ignore
 package-lock.json export-ignore
 package.json export-ignore
