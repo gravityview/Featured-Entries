@@ -31,6 +31,68 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Build translations
+		makepot: {
+			target: {
+				options: {
+					mainFile: 'featured-entries.php',
+					type: 'wp-plugin',
+					domainPath: '/languages',
+					updateTimestamp: false,
+					exclude: ['node_modules/.*', 'assets/.*', 'tmp/.*', 'vendor/.*' ],
+					potHeaders: {
+						poedit: true,
+						'x-poedit-keywordslist': true
+					},
+					processPot: function( pot, options ) {
+						pot.headers['language'] = 'en_US';
+						pot.headers['language-team'] = 'GravityView <hello@gravityview.co>';
+						pot.headers['last-translator'] = 'GravityView <hello@gravityview.co>';
+						pot.headers['report-msgid-bugs-to'] = 'https://gravityview.co/support/';
+
+						var translation,
+							excluded_meta = [
+								'GravityView - Featured Entries Extension',
+								'Promote entries as Featured in Views',
+								'https://gravityview.co',
+								'GravityView',
+								'GPLv2 or later',
+								'http://www.gnu.org/licenses/gpl-2.0.html',
+							];
+
+						for ( translation in pot.translations[''] ) {
+							if ( 'undefined' !== typeof pot.translations[''][ translation ].comments.extracted ) {
+								if ( excluded_meta.indexOf( pot.translations[''][ translation ].msgid ) >= 0 ) {
+									console.log( 'Excluded meta: ' + pot.translations[''][ translation ].msgid );
+									delete pot.translations[''][ translation ];
+								}
+							}
+						}
+
+						return pot;
+					}
+				}
+			}
+		},
+
+		addtextdomain: {
+			options: {
+				textdomain: 'gravityview-featured-entries',    // Project text domain.
+				updateDomains: [ 'gravityview', 'gravity-view', 'gravityforms', 'edd_sl', 'edd', 'easy-digital-downloads' ]  // List of text domains to replace.
+			},
+			target: {
+				files: {
+					src: [
+						'*.php',
+						'**/*.php',
+						'!node_modules/**',
+						'!tests/**',
+						'!tmp/**'
+					]
+				}
+			}
+		},
+
 		watch: {
 			featured_entries: {
 				files: ['assets/css/source/*.less','assets/js/*.js','!assets/js/*.min.js','readme.txt'],
@@ -76,6 +138,7 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-wp-i18n');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -83,9 +146,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-potomo');
 	grunt.loadNpmTasks('grunt-exec');
 
-
-	grunt.registerTask( 'default', ['uglify','exec:transifex','potomo','wp_readme_to_markdown','watch'] );
+	grunt.registerTask( 'default', [ 'less', 'uglify', 'translate', 'wp_readme_to_markdown' ] );
 
 	// Translation stuff
-	grunt.registerTask( 'translate', [ 'exec:transifex', 'potomo' ] );
+	grunt.registerTask( 'translate', [ 'exec:transifex', 'potomo', 'addtextdomain', 'makepot' ] );
 };
