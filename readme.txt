@@ -16,7 +16,7 @@ Enable Featured Entries in GravityView.
 
 == Changelog ==
 
-= develop =
+= 2.0.7 on April 29, 2021 =
 
 * Fixed: "Move Featured Entries to the Top" not working when combined with search conditions that use fields with multiple inputs (e.g., Checkboxes)
 
