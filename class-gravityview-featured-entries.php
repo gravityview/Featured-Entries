@@ -231,36 +231,42 @@ class GravityView_Featured_Entries extends GravityView_Extension {
 		return $filters;
 	}
 
-	public function gf_query_filter( &$query, $view, $request ) {
+	/**
+	 * Modify GF query to order results by `is_starred` first
+	 *
+	 * @since 2.0.4
+	 * @since 2.0.7 Removed `$request` parameter
+	 *
+	 * @param GF_Query $query
+	 * @param GV\View  $view
+	 *
+	 * @return void
+	 */
+	public function gf_query_filter( &$query, $view ) {
 		if ( ! $view->settings->get( 'featured_entries_to_top' ) ) {
 			return;
 		}
 
-		$q = $query->_introspect();
+		$original_query = $query->_introspect();
 
-		$_query = new GF_Query();
-		$_query->from( $q['from'] );
+		// Reset order conditions on the GF_Query class by overriding the protected `order` property
+		$std_class              = new stdClass;
+		$std_class->reset_order = function () use ( $query ) {
+			$reset = \Closure::bind( function () {
+				$this->order = array();
+			}, $query, get_class( $query ) );
 
-		foreach ( $q['joins'] as $join ) {
-			$_query->join( $join[0], $join[1] );
+			$reset();
+		};
+		call_user_func( $std_class->reset_order->bindTo( $std_class ) );
+
+		// Order by is_starred first
+		$query->order( new GF_Query_Column( 'is_starred', $view->form->ID ), GF_Query::DESC );
+
+		// Re-apply previous order conditions
+		foreach ( $original_query['order'] as $order ) {
+			$query->order( $order[0], $order[1] );
 		}
-
-		if ( method_exists( '\GV\Utils', 'gf_query_strip_condition_column_aliases' ) ) {
-			$q['where'] = \GV\Utils::gf_query_strip_condition_column_aliases( $q['where'] );
-		}
-
-		$_query->where( $q['where'] );
-		$_query->offset( $q['offset'] );
-		$_query->limit( $q['limit'] );
-
-		// Prepend is_starred order
-		$_query->order( new GF_Query_Column( 'is_starred', $view->form->ID ), GF_Query::DESC );
-
-		foreach ( $q['order'] as $order ) {
-			$_query->order( $order[0], $order[1] );
-		}
-
-		$query = $_query;
 	}
 
 	/**
@@ -578,7 +584,6 @@ class GravityView_Featured_Entries extends GravityView_Extension {
         </p>
 		<?php
 	}
-
 }
 
 new GravityView_Featured_Entries;
